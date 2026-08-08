@@ -375,7 +375,7 @@
                 </div>
                 <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(90px, 1fr)); gap: 5px; margin-bottom: 10px;">
                     <button class="btn-secondary" style="background:#e0f2fe; color:#075985;" onclick="quickNote('ح✓')">ح✓ حضور</button>
-                    <button class="btn-secondary" style="background:#fce7f3; color:#9d174d;" onclick="quickNote('ح!')">ح! غياب</button>
+                    <button class="btn-secondary" style="background:#fce7f3; color:#9d174d;" onclick="quickNote('غ!')">غ غياب</button>
                     <button class="btn-secondary" style="background:#dbeafe; color:#1e40af;" onclick="quickNote('م⭐')">م⭐ مشاركة</button>
                     <button class="btn-secondary" style="background:#fef9c3; color:#854d0e;" onclick="quickNote('و!')">و! واجب</button>
                     <button class="btn-secondary" style="background:#ffeeec; color:#b91c1c;" onclick="quickNote('س!')">س! سلوك</button>
@@ -539,33 +539,6 @@
                 <input type="file" id="importFile" style="display:none" onchange="importData(event)">
                 <button class="btn-danger" onclick="clearAllData()" style="width: 100%;">🗑️ مسح كل البيانات</button>
             </div>
-        </div>
-    </div>
-
-    <!-- سجل الجدول الرئيسي -->
-    <div class="card">
-        <div class="card-title" style="display: flex; justify-content: space-between; align-items: center;">
-            <span>📅 سجل الرصد والمتابعة الأسبوعي</span>
-            <button class="btn-primary" onclick="renderTable()">🔄 تحديث الجدول</button>
-        </div>
-        <div class="table-container">
-            <table id="recordsTable">
-                <thead>
-                    <tr>
-                        <th style="width: 50px;">رقم</th>
-                        <th style="width: 200px;">اسم الطالبة</th>
-                        <th>الأحد</th>
-                        <th>الاثنين</th>
-                        <th>الثلاثاء</th>
-                        <th>الأربعاء</th>
-                        <th>الخميس</th>
-                        <th>الملخص</th>
-                    </tr>
-                </thead>
-                <tbody id="tableBody">
-                    <!-- تُولد ديناميكيًا -->
-                </tbody>
-            </table>
         </div>
     </div>
 
@@ -815,6 +788,7 @@
 
     function renderTable() {
         const tbody = document.getElementById('tableBody');
+        if(!tbody) return;
         tbody.innerHTML = '';
 
         if(appData.students.length === 0) {
@@ -848,7 +822,7 @@
                     const meta = recordMeta(n);
                     let badgeClass = 'badge-m';
                     if(code.includes('ح✓')) badgeClass = 'badge-a';
-                    if(code.includes('ح!')) badgeClass = 'badge-abs';
+                    if(code.includes('ح!') || code.includes('غ!')) badgeClass = 'badge-abs';
                     if(code.includes('و')) badgeClass = 'badge-w';
                     if(code.includes('س!')) badgeClass = 'badge-s';
                     if(code.includes('س⭐')) badgeClass = 'badge-t';
@@ -950,7 +924,7 @@
     function addManualPrompt(sId, day) {
         let currentStudent = appData.students.find(s => s.id == sId);
         let note = prompt(`رصد يدوي للطالبة: ${currentStudent.name} ليوم ${day}.
-اكتبي الرمز (ح✓، ح!، م⭐، و!، س!، س⭐):`);
+اكتبي الرمز (ح✓، غ!، م⭐، و!، س!، س⭐):`);
         if(note) {
             logRecord(sId, day, note);
             renderTable();
@@ -980,7 +954,7 @@
             if(!appData.students.some(s => s.id == studentId)) return;
 
             let type = '';
-            if(phrase.includes('غائبة') || phrase.includes('غياب') || phrase.includes('لم تحضر اليوم')) type = 'ح!';
+            if(phrase.includes('غائبة') || phrase.includes('غياب') || phrase.includes('لم تحضر اليوم')) type = 'غ!';
             else if(phrase.includes('حاضرة') || phrase.includes('حضرت اليوم')) type = 'ح✓';
             else if(phrase.includes('واجب') || phrase.includes('ناقص')) type = 'و!';
             else if(phrase.includes('تحسن') || phrase.includes('تعدل')) type = 'س⭐';
@@ -1056,7 +1030,7 @@
 
     function parentFriendlyNote(note) {
         const code = recordCode(note).trim();
-        if(code.includes('ح!')) return 'غياب';
+        if(code.includes('ح!') || code.includes('غ!')) return 'غياب';
         if(code.includes('ح✓')) return 'حضور';
         if(code.includes('و!')) return 'عدم إحضار الواجب';
         if(code.includes('م⭐')) return 'مشاركة مميزة';
@@ -1348,7 +1322,7 @@
         function friendlyNote(note) {
             const n = recordCode(note).trim();
             if(n.includes('ح✓')) return 'حضور';
-            if(n.includes('ح!')) return 'غياب';
+            if(n.includes('ح!') || n.includes('غ!')) return 'غياب';
             if(n.includes('و!')) return 'لم تحضر الواجب';
             if(n.includes('م⭐')) return 'مشاركة مميزة';
             if(n.includes('س!')) return 'ملاحظة سلوكية';
@@ -1359,7 +1333,7 @@
         function shortNote(note) {
             const n = recordCode(note).trim();
             if(n.includes('ح✓')) return 'ح';
-            if(n.includes('ح!')) return 'غ';
+            if(n.includes('ح!') || n.includes('غ!')) return 'غ';
             if(n.includes('و!')) return 'و';
             if(n.includes('م⭐')) return 'م';
             if(n.includes('س!')) return 'س';
@@ -1387,7 +1361,10 @@
             let count = 0;
             days.forEach(day => {
                 notesFor(studentId, day).forEach(note => {
-                    if(recordCode(note).includes(code)) count++;
+                    const noteCode = recordCode(note);
+                    if(code === 'ح!' || code === 'غ!') {
+                        if(noteCode.includes('ح!') || noteCode.includes('غ!')) count++;
+                    } else if(noteCode.includes(code)) count++;
                 });
             });
             return count;
