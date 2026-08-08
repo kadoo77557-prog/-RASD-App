@@ -262,18 +262,60 @@
 
 <div class="container">
     <header id="top">
-        <h1>رَصْد — المساعد الذكي للمتابعة الصفية</h1>
-        <p>أقل تدوينًا… أدق متابعة</p>
+        <h1>رَصْد — نظام المتابعة الصفية الذكي</h1>
+        <p id="institutionHeaderLine">أقل تدوينًا… أدق متابعة</p>
     </header>
 
     <nav class="quick-nav" aria-label="وصول سريع">
+        <a href="#schoolIdentity">🏫 الهوية</a>
         <a href="#tracking">📝 الرصد</a>
         <a href="#assessment">🎯 التقييم</a>
         <a href="#parentMessage">📩 ولي الأمر</a>
         <a href="#studentReport">📄 تقرير الطالبة</a>
         <a href="#classroomDisplay" onclick="openClassroomDisplay();return false;">🖥️ العرض الصفي</a>
         <a href="#backup">💾 Excel/نسخ</a>
+        <a href="#aboutRasd">ℹ️ عن رَصْد</a>
     </nav>
+
+    <!-- الهوية المدرسية -->
+    <div class="card" id="schoolIdentity" style="margin-bottom:20px;">
+        <div class="card-title">🏫 الهوية المدرسية واعتماد التقارير</div>
+        <p style="font-size:12px;color:#64748b;margin-bottom:12px;">
+            تُحفظ هذه البيانات على هذا الجهاز فقط، وتظهر تلقائيًا في تقارير الطالبات والطباعة وملفات Excel.
+        </p>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px;">
+            <div class="form-group">
+                <label>اسم المدرسة</label>
+                <input type="text" id="schoolName" placeholder="مثال: الابتدائية ...">
+            </div>
+            <div class="form-group">
+                <label>اسم المعلمة</label>
+                <input type="text" id="teacherName" placeholder="مثال: خديجة العتيبي">
+            </div>
+            <div class="form-group">
+                <label>المسمى المهني</label>
+                <input type="text" id="teacherTitle" value="المعلمة" placeholder="مثال: المعلمة">
+            </div>
+            <div class="form-group">
+                <label>العام الدراسي</label>
+                <input type="text" id="academicYear" placeholder="مثال: 1448هـ">
+            </div>
+            <div class="form-group">
+                <label>شعار المدرسة — اختياري</label>
+                <input type="file" id="schoolLogoInput" accept="image/*" onchange="handleSchoolLogo(event)">
+                <div id="schoolLogoPreviewWrap" style="display:none;margin-top:8px;align-items:center;gap:8px;">
+                    <img id="schoolLogoPreview" alt="شعار المدرسة" style="width:56px;height:56px;object-fit:contain;border:1px solid var(--border);border-radius:10px;background:#fff;padding:4px;">
+                    <button type="button" class="btn-secondary" onclick="clearSchoolLogo()">إزالة الشعار</button>
+                </div>
+            </div>
+        </div>
+        <div class="btn-group">
+            <button type="button" class="btn-primary" onclick="saveIdentity()">💾 حفظ بيانات المدرسة والمعلمة</button>
+        </div>
+        <p style="font-size:11px;color:#64748b;margin-top:8px;">
+            لأفضل مظهر عند العرض على الإدارة: اكتبي الاسم الرسمي للمدرسة والاسم المهني للمعلمة كما سيظهران في التقارير.
+        </p>
+    </div>
 
     <!-- الإعداد الأساسي -->
     <div class="card" style="margin-bottom: 20px;">
@@ -340,8 +382,9 @@
             <div class="card-title">👥 إضافة وإدارة الطالبات</div>
             
             <div class="form-group">
-                <label>إضافة قائمة أسماء دفعة واحدة (اسم في كل سطر)</label>
-                <textarea id="bulkNames" rows="5" placeholder="أدخلي الأسماء هنا..."></textarea>
+                <label>إضافة قائمة أسماء دفعة واحدة (حتى 50 طالبة — اسم كامل في كل سطر)</label>
+                <textarea id="bulkNames" rows="5" placeholder="مثال: سارة محمد عبدالله العتيبي
+نورة خالد صالح القحطاني"></textarea>
             </div>
             <div class="btn-group">
                 <button class="btn-success" onclick="saveBulkNames()">💾 حفظ الأسماء وإظهارها</button>
@@ -374,12 +417,12 @@
                     </select>
                 </div>
                 <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(90px, 1fr)); gap: 5px; margin-bottom: 10px;">
-                    <button class="btn-secondary" style="background:#e0f2fe; color:#075985;" onclick="quickNote('ح✓')">ح✓ حضور</button>
+                    <button class="btn-secondary" style="background:#e0f2fe; color:#075985;" onclick="quickNote('ح✓')">ح حضور</button>
                     <button class="btn-secondary" style="background:#fce7f3; color:#9d174d;" onclick="quickNote('غ!')">غ غياب</button>
-                    <button class="btn-secondary" style="background:#dbeafe; color:#1e40af;" onclick="quickNote('م⭐')">م⭐ مشاركة</button>
-                    <button class="btn-secondary" style="background:#fef9c3; color:#854d0e;" onclick="quickNote('و!')">و! واجب</button>
-                    <button class="btn-secondary" style="background:#ffeeec; color:#b91c1c;" onclick="quickNote('س!')">س! سلوك</button>
-                    <button class="btn-secondary" style="background:#dcfce7; color:#166534;" onclick="quickNote('س⭐')">س⭐ تحسن</button>
+                    <button class="btn-secondary" style="background:#dbeafe; color:#1e40af;" onclick="quickNote('م⭐')">م مشاركة</button>
+                    <button class="btn-secondary" style="background:#fef9c3; color:#854d0e;" onclick="quickNote('و!')">و واجب</button>
+                    <button class="btn-secondary" style="background:#ffeeec; color:#b91c1c;" onclick="quickNote('س!')">س سلوك</button>
+                    <button class="btn-secondary" style="background:#dcfce7; color:#166534;" onclick="quickNote('س⭐')">ت تحسن</button>
                 </div>
             </div>
         </div>
@@ -542,8 +585,30 @@
         </div>
     </div>
 
+    <div class="card" id="aboutRasd" style="margin-top:20px;margin-bottom:20px;">
+        <div class="card-title">ℹ️ عن رَصْد</div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:10px;">
+            <div style="padding:12px;border:1px solid var(--border);border-radius:10px;background:#f8fafc;">
+                <strong>الهدف</strong>
+                <p style="font-size:12px;color:#475569;margin:6px 0 0;">تنظيم المتابعة الصفية اليومية، تسريع الرصد، وتسهيل إعداد التقارير والتواصل المهني مع ولي الأمر.</p>
+            </div>
+            <div style="padding:12px;border:1px solid var(--border);border-radius:10px;background:#f8fafc;">
+                <strong>الخصوصية</strong>
+                <p style="font-size:12px;color:#475569;margin:6px 0 0;">تُحفظ البيانات محليًا في متصفح الجهاز، ولا يرسل رَصْد بيانات الطالبات أو الرسائل تلقائيًا إلى أي جهة.</p>
+            </div>
+            <div style="padding:12px;border:1px solid var(--border);border-radius:10px;background:#f8fafc;">
+                <strong>الاستخدام المؤسسي</strong>
+                <p style="font-size:12px;color:#475569;margin:6px 0 0;">أداة مساندة للمعلمة في تنظيم المتابعة الصفية، ولا تستبدل الأنظمة والسجلات الرسمية المعتمدة لدى المدرسة أو الجهة التعليمية.</p>
+            </div>
+            <div style="padding:12px;border:1px solid var(--border);border-radius:10px;background:#f8fafc;">
+                <strong>الإصدار</strong>
+                <p style="font-size:12px;color:#475569;margin:6px 0 0;">رَصْد v1.2 — النسخة الإدارية المعتمدة للتجربة المدرسية — 09-08-2026</p>
+            </div>
+        </div>
+    </div>
+
     <footer>
-        نسخة تجريبية من مشروع «رَصْد» الذكي — تحفظ البيانات محليًا في هذا المتصفح، ويُنصح بعمل نسخة احتياطية دورية.
+        رَصْد v1.2 — النسخة الإدارية المعتمدة للتجربة المدرسية • تحفظ البيانات محليًا في هذا المتصفح، ويُنصح بعمل نسخة احتياطية دورية.
     </footer>
 </div>
 
@@ -610,7 +675,12 @@
             subject: 'لغتي',
             subjectOther: '',
             period: 'الأولى',
-            lessonDate: ''
+            lessonDate: '',
+            schoolName: '',
+            teacherName: '',
+            teacherTitle: 'المعلمة',
+            academicYear: '',
+            schoolLogo: ''
         }
     };
 
@@ -639,6 +709,12 @@
         document.getElementById('subjectOther').value = appData.settings.subjectOther || '';
         document.getElementById('periodSelect').value = appData.settings.period || 'الأولى';
         document.getElementById('lessonDate').value = appData.settings.lessonDate || new Date().toISOString().slice(0,10);
+        document.getElementById('schoolName').value = appData.settings.schoolName || '';
+        document.getElementById('teacherName').value = appData.settings.teacherName || '';
+        document.getElementById('teacherTitle').value = appData.settings.teacherTitle || 'المعلمة';
+        document.getElementById('academicYear').value = appData.settings.academicYear || '';
+        if(appData.settings.schoolLogo) showSchoolLogo(appData.settings.schoolLogo);
+        updateInstitutionHeader();
         document.getElementById('assessmentDate').value = document.getElementById('lessonDate').value;
         document.getElementById('assessmentSubject').value = selectedSubject();
         toggleSubjectOther();
@@ -653,6 +729,12 @@
             });
             el.addEventListener('input', saveSettings);
         });
+        ['schoolName','teacherName','teacherTitle','academicYear'].forEach(id => {
+            const el = document.getElementById(id);
+            el.addEventListener('change', saveIdentity);
+            el.addEventListener('input', () => { saveIdentity(false); });
+        });
+
         syncDayFromDate();
         updateStudentSelect();
         renderTable();
@@ -692,9 +774,86 @@
             subject: document.getElementById('subjectSelect').value,
             subjectOther: document.getElementById('subjectOther').value.trim(),
             period: document.getElementById('periodSelect').value,
-            lessonDate: document.getElementById('lessonDate').value
+            lessonDate: document.getElementById('lessonDate').value,
+            schoolName: appData.settings.schoolName || '',
+            teacherName: appData.settings.teacherName || '',
+            teacherTitle: appData.settings.teacherTitle || 'المعلمة',
+            academicYear: appData.settings.academicYear || '',
+            schoolLogo: appData.settings.schoolLogo || ''
         };
         saveToLocalStorage();
+    }
+
+    function saveIdentity(showMessage = true) {
+        if(!appData.settings) appData.settings = {};
+        appData.settings.schoolName = document.getElementById('schoolName').value.trim();
+        appData.settings.teacherName = document.getElementById('teacherName').value.trim();
+        appData.settings.teacherTitle = document.getElementById('teacherTitle').value.trim() || 'المعلمة';
+        appData.settings.academicYear = document.getElementById('academicYear').value.trim();
+        saveToLocalStorage();
+        updateInstitutionHeader();
+        if(showMessage) showToast('تم حفظ بيانات المدرسة والمعلمة.');
+    }
+
+    function updateInstitutionHeader() {
+        const school = (appData.settings && appData.settings.schoolName) || '';
+        const teacher = (appData.settings && appData.settings.teacherName) || '';
+        const title = (appData.settings && appData.settings.teacherTitle) || 'المعلمة';
+        const parts = [];
+        if(school) parts.push(school);
+        if(teacher) parts.push(`${title}: ${teacher}`);
+        document.getElementById('institutionHeaderLine').textContent = parts.length ? parts.join(' — ') : 'أقل تدوينًا… أدق متابعة • v1.2';
+    }
+
+    function showSchoolLogo(src) {
+        const wrap = document.getElementById('schoolLogoPreviewWrap');
+        const img = document.getElementById('schoolLogoPreview');
+        if(!wrap || !img) return;
+        img.src = src;
+        wrap.style.display = 'flex';
+    }
+
+    function handleSchoolLogo(event) {
+        const file = event.target.files && event.target.files[0];
+        if(!file) return;
+        if(file.size > 1024 * 1024) {
+            alert('يفضل أن يكون حجم الشعار أقل من 1 ميجابايت.');
+            event.target.value = '';
+            return;
+        }
+        const reader = new FileReader();
+        reader.onload = () => {
+            if(!appData.settings) appData.settings = {};
+            appData.settings.schoolLogo = reader.result;
+            saveToLocalStorage();
+            showSchoolLogo(reader.result);
+            showToast('تم حفظ شعار المدرسة.');
+        };
+        reader.readAsDataURL(file);
+    }
+
+    function clearSchoolLogo() {
+        if(!appData.settings) appData.settings = {};
+        appData.settings.schoolLogo = '';
+        saveToLocalStorage();
+        const wrap = document.getElementById('schoolLogoPreviewWrap');
+        const img = document.getElementById('schoolLogoPreview');
+        if(img) img.removeAttribute('src');
+        if(wrap) wrap.style.display = 'none';
+        const input = document.getElementById('schoolLogoInput');
+        if(input) input.value = '';
+        showToast('تمت إزالة الشعار.');
+    }
+
+    function identityInfo() {
+        const s = appData.settings || {};
+        return {
+            school: s.schoolName || '',
+            teacher: s.teacherName || '',
+            teacherTitle: s.teacherTitle || 'المعلمة',
+            academicYear: s.academicYear || '',
+            logo: s.schoolLogo || ''
+        };
     }
 
     function recordCode(note) {
@@ -732,10 +891,11 @@
         const parentSelect = document.getElementById('parentStudentSelect');
         const reportSelect = document.getElementById('reportStudentSelect');
         const assessmentSelect = document.getElementById('assessmentStudent');
-        select.innerHTML = '<option value="">اختر الطالبة...</option>';
-        if(parentSelect) parentSelect.innerHTML = '<option value="">اختر الطالبة...</option>';
-        if(reportSelect) reportSelect.innerHTML = '<option value="">اختر الطالبة...</option>';
-        if(assessmentSelect) assessmentSelect.innerHTML = '<option value="">اختر الطالبة...</option>';
+        const studentPlaceholder = appData.students.length ? `اختر الطالبة... (${appData.students.length})` : 'اختر الطالبة...';
+        select.innerHTML = `<option value="">${studentPlaceholder}</option>`;
+        if(parentSelect) parentSelect.innerHTML = `<option value="">${studentPlaceholder}</option>`;
+        if(reportSelect) reportSelect.innerHTML = `<option value="">${studentPlaceholder}</option>`;
+        if(assessmentSelect) assessmentSelect.innerHTML = `<option value="">${studentPlaceholder}</option>`;
         appData.students.forEach(s => {
             const option = `<option value="${s.id}">${s.id} - ${s.name}</option>`;
             select.innerHTML += option;
@@ -788,7 +948,6 @@
 
     function renderTable() {
         const tbody = document.getElementById('tableBody');
-        if(!tbody) return;
         tbody.innerHTML = '';
 
         if(appData.students.length === 0) {
@@ -862,17 +1021,17 @@
     function saveBulkNames() {
         const text = document.getElementById('bulkNames').value.trim();
         if(!text) return;
-        const lines = text.split(/\r?\n/);
-        appData.students = [];
-        lines.forEach((line, index) => {
-            if(line.trim()) {
-                appData.students.push({ id: index + 1, name: line.trim() });
-            }
-        });
+        const lines = text.split(/\r?\n/).map(line => line.trim()).filter(Boolean);
+        const limited = lines.slice(0, 50);
+        appData.students = limited.map((name, index) => ({ id: index + 1, name }));
         saveToLocalStorage();
         updateStudentSelect();
         renderTable();
-        showToast('تم حفظ قائمة الأسماء بنجاح!');
+        if(lines.length > 50) {
+            showToast('تم حفظ أول 50 طالبة فقط؛ الحد الأقصى 50 طالبة.');
+        } else {
+            showToast(`تم حفظ ${appData.students.length} طالبة مع ترقيم تلقائي من 1 إلى ${appData.students.length}.`);
+        }
     }
 
     function generate50Empty() {
@@ -924,7 +1083,7 @@
     function addManualPrompt(sId, day) {
         let currentStudent = appData.students.find(s => s.id == sId);
         let note = prompt(`رصد يدوي للطالبة: ${currentStudent.name} ليوم ${day}.
-اكتبي الرمز (ح✓، غ!، م⭐، و!، س!، س⭐):`);
+اكتبي الرمز (ح✓، غ!، م⭐، و!، س!، ت⭐):`);
         if(note) {
             logRecord(sId, day, note);
             renderTable();
@@ -1113,7 +1272,11 @@
             msg += `\nالتقييم الأكاديمي:\n${assessmentLines.join('\n')}\n`;
             if(actions.length) msg += `\nإجراءات المتابعة المسجلة:\n${actions.map(a=>'• '+a).join('\n')}\n`;
         }
+        const ident = identityInfo();
         msg += `\nنأمل تعاونكم في المتابعة، مع خالص الشكر والتقدير.`;
+        if(ident.teacher || ident.school) {
+            msg += `\n\n${ident.teacher ? ident.teacherTitle + ': ' + ident.teacher : ''}${ident.teacher && ident.school ? '\n' : ''}${ident.school ? ident.school : ''}`;
+        }
         box.value = msg;
     }
 
@@ -1250,11 +1413,26 @@
         const rows = data.records.length ? data.records.map(r => `<tr><td>${escapeHtml(r.week)}</td><td>${escapeHtml(r.day)}</td><td>${escapeHtml(r.date || '—')}</td><td>${escapeHtml(r.subject)}</td><td>${escapeHtml(r.period)}</td><td>${escapeHtml(r.label)}</td></tr>`).join('') : `<tr><td colspan="6" style="text-align:center;color:#64748b;">لا توجد ملاحظات في الفترة المحددة.</td></tr>`;
         out.innerHTML = `
             <div id="studentReportPrintable">
-                <div style="text-align:center;margin-bottom:14px;">
-                    <h2 style="margin:0;color:#1e3a8a;">رَصْد — تقرير طالبة</h2>
-                    <div style="margin-top:6px;font-size:16px;font-weight:700;">${escapeHtml(data.student.name)}</div>
-                    <div style="color:#64748b;font-size:12px;">${escapeHtml(document.getElementById('className').value || '—')} — ${periodText}</div>
+                ${(() => { const ident=identityInfo(); return `
+                <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;border-bottom:2px solid #1e3a8a;padding-bottom:10px;margin-bottom:14px;">
+                    <div style="text-align:right;flex:1;">
+                        ${ident.school ? `<div style="font-size:14px;font-weight:800;color:#0f172a;">${escapeHtml(ident.school)}</div>` : ''}
+                        ${ident.academicYear ? `<div style="font-size:11px;color:#64748b;">العام الدراسي: ${escapeHtml(ident.academicYear)}</div>` : ''}
+                    </div>
+                    <div style="text-align:center;flex:1.4;">
+                        <h2 style="margin:0;color:#1e3a8a;">رَصْد — تقرير متابعة طالبة</h2>
+                        <div style="margin-top:5px;font-size:16px;font-weight:700;">${escapeHtml(data.student.name)}</div>
+                    </div>
+                    <div style="width:72px;text-align:left;">
+                        ${ident.logo ? `<img src="${ident.logo}" alt="شعار المدرسة" style="max-width:64px;max-height:64px;object-fit:contain;">` : ''}
+                    </div>
                 </div>
+                <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:6px 14px;margin-bottom:14px;font-size:12px;color:#334155;">
+                    <div><b>الصف:</b> ${escapeHtml(document.getElementById('className').value || '—')}</div>
+                    <div><b>الفترة:</b> ${periodText}</div>
+                    <div><b>المادة:</b> ${escapeHtml(selectedSubject())}</div>
+                    <div><b>تاريخ إصدار التقرير:</b> ${escapeHtml(new Date().toLocaleDateString('ar-SA'))}</div>
+                </div>`; })()}
                 <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:14px;">${metricCards}</div>
                 <div style="padding:12px;border-radius:10px;background:#eff6ff;margin-bottom:12px;"><b>الملخص:</b> ${escapeHtml(data.summary)}</div>
                 <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px;">
@@ -1269,6 +1447,19 @@
                         <tbody>${rows}</tbody>
                     </table>
                 </div>
+                ${(() => { const ident=identityInfo(); return `
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:28px;padding-top:14px;border-top:1px solid #cbd5e1;font-size:12px;">
+                    <div>
+                        <b>إعداد ${escapeHtml(ident.teacherTitle || 'المعلمة')}:</b>
+                        <div style="margin-top:8px;">${escapeHtml(ident.teacher || '________________________')}</div>
+                        <div style="margin-top:18px;">التوقيع: ________________________</div>
+                    </div>
+                    <div>
+                        <b>اعتماد الإدارة:</b>
+                        <div style="margin-top:8px;">الاسم: ________________________</div>
+                        <div style="margin-top:18px;">التوقيع / الختم: ________________________</div>
+                    </div>
+                </div>`; })()}
             </div>`;
         out.style.display = 'block';
         out.dataset.summary = data.summary;
@@ -1314,6 +1505,7 @@
         const weekLogs = getWeekLogs(false);
         const className = document.getElementById('className').value.trim() || 'الصف';
         const monthName = document.getElementById('monthName').value.trim() || 'الشهر';
+        const ident = identityInfo();
 
         function notesFor(studentId, day) {
             return (weekLogs[studentId] && weekLogs[studentId][day]) ? weekLogs[studentId][day] : [];
@@ -1361,13 +1553,14 @@
             let count = 0;
             days.forEach(day => {
                 notesFor(studentId, day).forEach(note => {
-                    const noteCode = recordCode(note);
-                    if(code === 'ح!' || code === 'غ!') {
-                        if(noteCode.includes('ح!') || noteCode.includes('غ!')) count++;
-                    } else if(noteCode.includes(code)) count++;
+                    if(recordCode(note).includes(code)) count++;
                 });
             });
             return count;
+        }
+
+        function countAbsence(studentId) {
+            return countCode(studentId, 'غ!') + countCode(studentId, 'ح!');
         }
 
         function dayText(studentId, day) {
@@ -1382,6 +1575,7 @@
         // الورقة الأولى: سجل رأسي مبسط ومناسب للجوال
         const logData = [];
         logData.push(['رَصْد — سجل المتابعة']);
+        logData.push(['المدرسة', ident.school || '', 'المعلمة', ident.teacher || '', 'العام الدراسي', ident.academicYear || '']);
         logData.push(['الصف', className]);
         logData.push(['الشهر', monthName]);
         logData.push(['الأسبوع', week]);
@@ -1413,12 +1607,13 @@
         const logWs = XLSX.utils.aoa_to_sheet(logData);
         logWs['!merges'] = [XLSX.utils.decode_range('A1:G1')];
         logWs['!cols'] = [{wch:8}, {wch:28}, {wch:12}, {wch:14}, {wch:18}, {wch:16}, {wch:32}];
-        logWs['!autofilter'] = { ref: `A7:G${logData.length}` };
-        logWs['!freeze'] = { xSplit: 0, ySplit: 7, topLeftCell: 'A8', activePane: 'bottomLeft', state: 'frozen' };
+        logWs['!autofilter'] = { ref: `A8:G${logData.length}` };
+        logWs['!freeze'] = { xSplit: 0, ySplit: 8, topLeftCell: 'A9', activePane: 'bottomLeft', state: 'frozen' };
 
         // الورقة الثانية: ملخص واضح لكل طالبة
         const summaryData = [];
         summaryData.push(['رَصْد — ملخص الأسبوع']);
+        summaryData.push(['المدرسة', ident.school || '', 'المعلمة', ident.teacher || '', 'العام الدراسي', ident.academicYear || '']);
         summaryData.push(['الصف', className, 'الشهر', monthName]);
         summaryData.push(['الأسبوع', week, 'آخر مادة مختارة', selectedSubject(), 'آخر حصة مختارة', document.getElementById('periodSelect').value]);
         summaryData.push([]);
@@ -1427,7 +1622,7 @@
         let totals = {present:0, absent:0, homework:0, participation:0, behavior:0, improvement:0};
         appData.students.forEach(student => {
             const present = countCode(student.id, 'ح✓');
-            const absent = countCode(student.id, 'ح!');
+            const absent = countAbsence(student.id);
             const homework = countCode(student.id, 'و!');
             const participation = countCode(student.id, 'م⭐');
             const behavior = countCode(student.id, 'س!');
@@ -1453,7 +1648,11 @@
             };
         }
 
-        const mostAbsent = leadersBy('ح!');
+        const mostAbsent = (() => {
+            const scored = appData.students.map(student => ({ name: student.name, count: countAbsence(student.id) }));
+            const max = scored.reduce((m, item) => Math.max(m, item.count), 0);
+            return max === 0 ? { names: 'لا يوجد', count: 0 } : { names: scored.filter(item => item.count === max).map(item => item.name).join('، '), count: max };
+        })();
         const mostBehavior = leadersBy('س!');
         const mostParticipation = leadersBy('م⭐');
         const mostImprovement = leadersBy('س⭐');
@@ -1467,7 +1666,7 @@
         summaryData.push([formatLeader('الأكثر تحسنًا','improvement'), mostImprovement.names, mostImprovement.count]);
 
         const summaryWs = XLSX.utils.aoa_to_sheet(summaryData);
-        const quickTitleRow = appData.students.length + 9;
+        const quickTitleRow = appData.students.length + 10;
         summaryWs['!merges'] = [
             XLSX.utils.decode_range('A1:H1'),
             XLSX.utils.decode_range(`A${quickTitleRow}:H${quickTitleRow}`)
@@ -1475,12 +1674,13 @@
         summaryWs['!cols'] = [
             {wch:8}, {wch:30}, {wch:12}, {wch:10}, {wch:12}, {wch:12}, {wch:14}, {wch:12}
         ];
-        summaryWs['!autofilter'] = { ref: `A5:H${Math.max(5, 4 + appData.students.length)}` };
-        summaryWs['!freeze'] = { xSplit: 2, ySplit: 5, topLeftCell: 'C6', activePane: 'bottomRight', state: 'frozen' };
+        summaryWs['!autofilter'] = { ref: `A6:H${Math.max(6, 5 + appData.students.length)}` };
+        summaryWs['!freeze'] = { xSplit: 2, ySplit: 6, topLeftCell: 'C7', activePane: 'bottomRight', state: 'frozen' };
 
         // الورقة الثالثة: الجدول الأسبوعي الكامل للطباعة أو العرض على الكمبيوتر
         const gridData = [];
         gridData.push(['رَصْد — الجدول الأسبوعي']);
+        gridData.push(['المدرسة', ident.school || '', 'المعلمة', ident.teacher || '', 'العام الدراسي', ident.academicYear || '']);
         gridData.push(['الصف', className, 'الشهر', monthName, 'الأسبوع', week]);
         gridData.push(['ملاحظة', 'تفاصيل المادة والحصة والتاريخ محفوظة في ورقة سجل المتابعة']);
         gridData.push(['مفتاح الرموز', 'ح=حضور | غ=غياب | و=واجب | م=مشاركة | س=سلوك | ت=تحسن']);
@@ -1489,7 +1689,7 @@
 
         appData.students.forEach(student => {
             const present = countCode(student.id, 'ح✓');
-            const absent = countCode(student.id, 'ح!');
+            const absent = countAbsence(student.id);
             const homework = countCode(student.id, 'و!');
             const participation = countCode(student.id, 'م⭐');
             const behavior = countCode(student.id, 'س!');
@@ -1519,13 +1719,13 @@
 
 
         // الورقة الرابعة: التقييمات والإجراءات الاختيارية
-        const assessmentData = [['رَصْد — التقييمات والإجراءات الاختيارية'],['الصف',className,'الشهر',monthName,'الأسبوع',week],[],['الطالبة','المادة','النوع','الدرجة','من','النسبة %','التاريخ','الإجراء','الملاحظة']];
+        const assessmentData = [['رَصْد — التقييمات والإجراءات الاختيارية'],['المدرسة',ident.school||'','المعلمة',ident.teacher||'','العام الدراسي',ident.academicYear||''],['الصف',className,'الشهر',monthName,'الأسبوع',week],[],['الطالبة','المادة','النوع','الدرجة','من','النسبة %','التاريخ','الإجراء','الملاحظة']];
         (Array.isArray(appData.assessments)?appData.assessments:[]).filter(a=>a.week===week).forEach(a=>{
             const st=appData.students.find(s=>String(s.id)===String(a.studentId));
             const pct=(a.score!==null&&a.max!==null&&a.max)?Math.round((a.score/a.max*100)*10)/10:'';
             assessmentData.push([st?st.name:a.studentId,a.subject||'',a.type||'',a.score??'',a.max??'',pct,a.date||'',a.action||'',a.note||'']);
         });
-        if(assessmentData.length===4) assessmentData.push(['لا توجد تقييمات/إجراءات اختيارية مسجلة في هذا الأسبوع']);
+        if(assessmentData.length===5) assessmentData.push(['لا توجد تقييمات/إجراءات اختيارية مسجلة في هذا الأسبوع']);
         const assessmentWs=XLSX.utils.aoa_to_sheet(assessmentData);
         assessmentWs['!merges']=[XLSX.utils.decode_range('A1:I1')];
         assessmentWs['!cols']=[{wch:26},{wch:18},{wch:15},{wch:10},{wch:10},{wch:12},{wch:14},{wch:24},{wch:30}];
@@ -1539,8 +1739,8 @@
         wb.Workbook = { Views: [{ RTL: true }] };
         wb.Props = {
             Title: `رَصْد - ${className} - ${monthName} - ${week}`,
-            Subject: 'تقرير المتابعة الصفية الأسبوعي',
-            Author: 'رَصْد'
+            Subject: `تقرير المتابعة الصفية الأسبوعي${ident.school ? ' — ' + ident.school : ''}`,
+            Author: ident.teacher || 'رَصْد'
         };
 
         const out = XLSX.write(wb, { bookType: 'xlsx', type: 'array' });
