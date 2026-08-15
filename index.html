@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
-    <title>رَصْد — المساعد الذكي للمتابعة الصفية</title>
+    <title>رَصْد — نظام المتابعة الصفية الذكي</title>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -255,44 +255,148 @@
         .kpi{padding:10px;border:1px solid var(--border);border-radius:10px;background:#fff;text-align:center}
         .kpi b{display:block;font-size:18px;color:#0f172a}
         @media(max-width:640px){.quick-nav{border-radius:0;margin-left:-12px;margin-right:-12px}.student-board-overlay{padding:10px}}
-        .teacher-now{background:linear-gradient(135deg,#f8fafc,#eef6ff);border:1px solid #bfdbfe}
-        .teacher-now .context{display:flex;flex-wrap:wrap;gap:7px;margin:8px 0 12px}
-        .teacher-now .context span{background:#fff;border:1px solid #dbeafe;border-radius:999px;padding:5px 9px;font-size:12px;font-weight:700;color:#334155}
-        .teacher-actions{display:flex;flex-wrap:wrap;gap:8px}
-        .teacher-actions button{flex:1 1 180px;justify-content:center}
-        .mini-help{font-size:11px;color:#64748b;margin-top:8px}
+
+        /* Rasd final administrative UI — 2026 */
+        body{padding:14px;background:#f4f7fb;color:#172033}
+        .container{max-width:1080px}
+        .rasd-hero{position:relative;overflow:hidden;text-align:right;padding:22px 20px 18px;border-radius:18px;background:linear-gradient(135deg,#163b73 0%,#245fc8 100%);box-shadow:0 10px 28px rgba(30,64,175,.18);margin-bottom:14px}
+        .rasd-hero:after{content:'';position:absolute;width:170px;height:170px;border-radius:50%;background:rgba(255,255,255,.07);left:-50px;top:-75px}
+        .rasd-brand{display:flex;align-items:center;gap:12px;position:relative;z-index:1}
+        .rasd-mark{width:48px;height:48px;border-radius:14px;background:#fff;color:#1e4f9f;display:grid;place-items:center;font-size:27px;font-weight:800;box-shadow:0 5px 14px rgba(0,0,0,.12)}
+        .rasd-hero h1{font-size:28px;line-height:1.1;margin:0}
+        .rasd-subtitle{font-size:13px;opacity:.92;margin-top:4px;font-weight:600}
+        .rasd-hero p{margin-top:12px;font-size:12px;opacity:.95;position:relative;z-index:1}
+        .rasd-status{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px;position:relative;z-index:1}
+        .rasd-status span{font-size:10px;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.2);padding:4px 8px;border-radius:999px}
+        .quick-nav{position:sticky;top:8px;display:grid;grid-template-columns:repeat(6,1fr);gap:7px;overflow:visible;padding:8px;border-radius:16px;margin-bottom:16px;background:rgba(244,247,251,.94);box-shadow:0 8px 24px rgba(15,23,42,.07)}
+        .quick-nav a{min-width:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;text-align:center;padding:9px 4px;border-radius:12px;font-size:11px;line-height:1.2;color:#334155}
+        .quick-nav a b{font-size:17px;line-height:1}
+        .card{border-radius:16px;padding:18px;border-color:#dde5ef;box-shadow:0 3px 12px rgba(15,23,42,.045)}
+        .card-title{font-size:16px;margin-bottom:12px;padding-bottom:10px}
+        .form-group{margin-bottom:12px}
+        label{font-size:12px}
+        select,input,textarea{border-radius:10px;min-height:44px;background:#fbfcfe}
+        textarea{min-height:110px}
+        button{border-radius:10px;min-height:42px;justify-content:center}
+        .btn-primary{background:#245fc8}
+        .btn-group button{flex:1 1 150px}
+        #schoolIdentity{border-right:4px solid #245fc8}
+        #tracking{scroll-margin-top:110px}
+        #assessment,#parentMessage,#studentReport,#schoolIdentity,#backup{scroll-margin-top:110px}
+        @media(max-width:700px){
+            body{padding:10px}
+            .rasd-hero{border-radius:16px;padding:18px 15px}
+            .rasd-mark{width:43px;height:43px;border-radius:12px;font-size:24px}
+            .rasd-hero h1{font-size:25px}
+            .quick-nav{grid-template-columns:repeat(3,1fr);position:sticky;top:5px}
+            .quick-nav a{font-size:11px;padding:8px 3px}
+            .card{padding:15px}
+            .card-title{font-size:15px}
+            .grid{gap:14px}
+            .stats-grid{gap:8px}
+        }
+
+        /* Final responsive polish: summary and backup */
+        .summary-backup-grid{
+            display:grid;
+            grid-template-columns:minmax(0,1.7fr) minmax(300px,.85fr);
+            gap:16px;
+            align-items:start;
+            margin-bottom:20px;
+        }
+        .summary-card,.backup-card{margin:0;min-width:0}
+        .summary-card .stats-grid{margin-top:4px}
+        .summary-card .stat-box{min-height:92px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px}
+        .backup-actions{display:grid;grid-template-columns:1fr;gap:9px;margin-top:10px}
+        .backup-actions button{width:100%;margin:0}
+        .backup-help{font-size:11px;line-height:1.7;color:#64748b;margin:10px 0 0}
+        .backup-danger{margin-top:12px;padding-top:12px;border-top:1px dashed #fecaca}
+        .backup-danger button{width:100%}
+        @media(max-width:820px){
+            .summary-backup-grid{grid-template-columns:1fr;gap:14px}
+            .summary-card,.backup-card{width:100%}
+            .backup-actions{grid-template-columns:1fr 1fr}
+            .backup-danger{grid-column:1/-1}
+        }
+        @media(max-width:520px){
+            .backup-actions{grid-template-columns:1fr}
+            .stats-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:7px}
+            .stat-box{padding:10px 6px;font-size:11px}
+            .stat-num{font-size:22px}
+        }
 
     </style>
 </head>
 <body>
 
 <div class="container">
-    <header id="top">
-        <h1>رَصْد — المساعد الذكي للمتابعة الصفية</h1>
-        <p>أقل تدوينًا… أدق متابعة</p>
+    <header id="top" class="rasd-hero">
+        <div class="rasd-brand">
+            <div class="rasd-mark" aria-hidden="true">ر</div>
+            <div>
+                <h1>رَصْد</h1>
+                <div class="rasd-subtitle">نظام المتابعة الصفية الذكي</div>
+            </div>
+        </div>
+        <p id="institutionHeaderLine">أقل تدوينًا… أدق متابعة • الإصدار الإداري النهائي v1.4</p>
+        <div class="rasd-status" aria-label="حالة النظام">
+            <span>✓ حفظ محلي</span><span>✓ تقارير</span><span>✓ حتى 50 طالبة</span><span>v1.4</span>
+        </div>
     </header>
 
-    <nav class="quick-nav" aria-label="وصول سريع">
-        <a href="#tracking">📝 الرصد</a>
-        <a href="#assessment">🎯 التقييم</a>
-        <a href="#parentMessage">📩 ولي الأمر</a>
-        <a href="#studentReport">📄 تقرير الطالبة</a>
-        <a href="#classroomDisplay" onclick="openClassroomDisplay();return false;">🖥️ العرض الصفي</a>
-        <a href="#backup">💾 Excel/نسخ</a>
+    <nav class="quick-nav" aria-label="القائمة الرئيسية">
+        <a href="#tracking" aria-label="الانتقال إلى الرصد"><b>📝</b><span>الرصد</span></a>
+        <a href="#assessment" aria-label="الانتقال إلى التقييم"><b>🎯</b><span>التقييم</span></a>
+        <a href="#parentMessage" aria-label="الانتقال إلى رسالة ولي الأمر"><b>✉️</b><span>ولي الأمر</span></a>
+        <a href="#studentReport" aria-label="الانتقال إلى التقارير"><b>📄</b><span>التقارير</span></a>
+        <a href="#schoolIdentity" aria-label="الانتقال إلى بيانات المدرسة والمعلمة"><b>🏫</b><span>الهوية</span></a>
+        <a href="#backup" aria-label="الانتقال إلى الحفظ والنسخ الاحتياطي"><b>💾</b><span>الحفظ</span></a>
     </nav>
 
-    <!-- الإعداد الأساسي -->
-    <div class="card" style="margin-bottom: 20px;">
-        <div class="card-title">⚙️ الإعداد الأساسي</div>
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px;">
+    <!-- الهوية المدرسية -->
+    <div class="card" id="schoolIdentity" style="margin-bottom:20px;">
+        <div class="card-title">🏫 بيانات المدرسة والمعلمة</div>
+        <p style="font-size:12px;color:#64748b;margin-bottom:12px;">
+            تُحفظ هذه البيانات على هذا الجهاز فقط، وتظهر تلقائيًا في تقارير الطالبات والطباعة وملفات Excel.
+        </p>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px;">
             <div class="form-group">
                 <label>اسم المدرسة</label>
                 <input type="text" id="schoolName" placeholder="مثال: الابتدائية ...">
             </div>
             <div class="form-group">
                 <label>اسم المعلمة</label>
-                <input type="text" id="teacherName" placeholder="اسم المعلمة">
+                <input type="text" id="teacherName" placeholder="مثال: خديجة العتيبي">
             </div>
+            <div class="form-group">
+                <label>المسمى المهني</label>
+                <input type="text" id="teacherTitle" value="المعلمة" placeholder="مثال: المعلمة">
+            </div>
+            <div class="form-group">
+                <label>العام الدراسي</label>
+                <input type="text" id="academicYear" placeholder="مثال: 1448هـ">
+            </div>
+            <div class="form-group">
+                <label>شعار المدرسة — اختياري</label>
+                <input type="file" id="schoolLogoInput" accept="image/*" onchange="handleSchoolLogo(event)">
+                <div id="schoolLogoPreviewWrap" style="display:none;margin-top:8px;align-items:center;gap:8px;">
+                    <img id="schoolLogoPreview" alt="شعار المدرسة" style="width:56px;height:56px;object-fit:contain;border:1px solid var(--border);border-radius:10px;background:#fff;padding:4px;">
+                    <button type="button" class="btn-secondary" onclick="clearSchoolLogo()">إزالة الشعار</button>
+                </div>
+            </div>
+        </div>
+        <div class="btn-group">
+            <button type="button" class="btn-primary" onclick="saveIdentity()">💾 حفظ بيانات المدرسة والمعلمة</button>
+        </div>
+        <p style="font-size:11px;color:#64748b;margin-top:8px;">
+            تُكتب هذه البيانات مرة واحدة، ثم تظهر تلقائيًا في التقارير والطباعة وملفات Excel.
+        </p>
+    </div>
+
+    <!-- الإعداد الأساسي -->
+    <div class="card" style="margin-bottom: 20px;">
+        <div class="card-title">⚙️ الإعداد الأساسي</div>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px;">
             <div class="form-group">
                 <label>اسم الصف</label>
                 <input type="text" id="className" value="الصف أولى/أول">
@@ -348,25 +452,15 @@
         </div>
     </div>
 
-    <div class="card teacher-now" style="margin-bottom:20px;">
-        <div class="card-title">⚡ الحصة الآن</div>
-        <div class="context" id="lessonContext"></div>
-        <div class="teacher-actions">
-            <button class="btn-success" type="button" onclick="markAllPresent()">✓ تسجيل حضور الجميع</button>
-            <button class="btn-secondary" type="button" onclick="undoLastRecord()">↩ تراجع عن آخر رصد</button>
-            <button class="btn-primary" type="button" onclick="document.getElementById('naturalInput').focus();document.getElementById('tracking').scrollIntoView({behavior:'smooth'});">⌨️ رصد مجموعة بالأرقام</button>
-        </div>
-        <div class="mini-help">للسرعة داخل الصف: سجّلي حضور الجميع أولًا، ثم غيّري الغائبات فقط. ويمكن رصد عدة طالبات دفعة واحدة بالأرقام.</div>
-    </div>
-
     <div class="grid" id="tracking">
         <!-- إدارة أسماء الطالبات -->
         <div class="card">
             <div class="card-title">👥 إضافة وإدارة الطالبات</div>
             
             <div class="form-group">
-                <label>إضافة قائمة أسماء دفعة واحدة (اسم في كل سطر)</label>
-                <textarea id="bulkNames" rows="5" placeholder="أدخلي الأسماء هنا..."></textarea>
+                <label>إضافة قائمة أسماء دفعة واحدة (حتى 50 طالبة — اسم كامل في كل سطر)</label>
+                <textarea id="bulkNames" rows="5" placeholder="مثال: سارة محمد عبدالله العتيبي
+نورة خالد صالح القحطاني"></textarea>
             </div>
             <div class="btn-group">
                 <button class="btn-success" onclick="saveBulkNames()">💾 حفظ الأسماء وإظهارها</button>
@@ -381,7 +475,7 @@
             <div class="card-title">🧠 الإدخال باللغة الطبيعية والرصد الذكي</div>
             <div class="form-group">
                 <label>اكتبي كـ عبارة نصية مباشرة</label>
-                <textarea id="naturalInput" rows="4" placeholder="أمثلة سريعة: غياب: 3، 7، 18&#10;مشاركة: 2، 5، 11&#10;واجب: 9، 10&#10;أو: 1 لم تحضر الواجب، 3 مشاركتها ممتازة"></textarea>
+                <textarea id="naturalInput" rows="3" placeholder="مثال: 1 لم تحضر الواجب، 3 مشاركتها ممتازة، 5 تحسن سلوكها"></textarea>
             </div>
             <button class="btn-primary" style="width: 100%; justify-content: center;" onclick="processNaturalLanguage()">⚡ تحليل وإضافة للرصد</button>
 
@@ -390,7 +484,7 @@
                 <div style="font-size:11px;color:#64748b;margin-bottom:8px;">سيُحفظ مع كل رصد: المادة + رقم الحصة + التاريخ.</div>
                 <div style="display: flex; gap: 10px; margin-bottom: 10px;">
                     <select id="studentSelect" style="flex: 2;"><option value="">اختر الطالبة...</option></select>
-                    <select id="daySelect" style="flex: 1;" onchange="updateLessonContext()">
+                    <select id="daySelect" style="flex: 1;">
                         <option value="الأحد">الأحد</option>
                         <option value="الاثنين">الاثنين</option>
                         <option value="الثلاثاء">الثلاثاء</option>
@@ -399,12 +493,12 @@
                     </select>
                 </div>
                 <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(90px, 1fr)); gap: 5px; margin-bottom: 10px;">
-                    <button class="btn-secondary" style="background:#e0f2fe; color:#075985;" onclick="quickNote('ح✓')">ح✓ حضور</button>
-                    <button class="btn-secondary" style="background:#fce7f3; color:#9d174d;" onclick="quickNote('ح!')">ح! غياب</button>
-                    <button class="btn-secondary" style="background:#dbeafe; color:#1e40af;" onclick="quickNote('م⭐')">م⭐ مشاركة</button>
-                    <button class="btn-secondary" style="background:#fef9c3; color:#854d0e;" onclick="quickNote('و!')">و! واجب</button>
-                    <button class="btn-secondary" style="background:#ffeeec; color:#b91c1c;" onclick="quickNote('س!')">س! سلوك</button>
-                    <button class="btn-secondary" style="background:#dcfce7; color:#166534;" onclick="quickNote('س⭐')">س⭐ تحسن</button>
+                    <button class="btn-secondary" style="background:#e0f2fe; color:#075985;" onclick="quickNote('ح✓')">ح حضور</button>
+                    <button class="btn-secondary" style="background:#fce7f3; color:#9d174d;" onclick="quickNote('غ!')">غ غياب</button>
+                    <button class="btn-secondary" style="background:#dbeafe; color:#1e40af;" onclick="quickNote('م⭐')">م مشاركة</button>
+                    <button class="btn-secondary" style="background:#fef9c3; color:#854d0e;" onclick="quickNote('و!')">و واجب</button>
+                    <button class="btn-secondary" style="background:#ffeeec; color:#b91c1c;" onclick="quickNote('س!')">س سلوك</button>
+                    <button class="btn-secondary" style="background:#dcfce7; color:#166534;" onclick="quickNote('س⭐')">ت تحسن</button>
                 </div>
             </div>
         </div>
@@ -525,7 +619,7 @@
                 <label>الحصة</label>
                 <select id="summaryPeriodFilter" onchange="renderTable(); updateStats();">
                     <option value="">كل الحصص</option>
-                    <option value="الأولى">الحصة الأولى</option><option value="الثانية">الحصة الثانية</option><option value="الثالثة">الحصة الثالثة</option><option value="الرابعة">الحصة الرابعة</option><option value="الخامسة">الحصة الخامسة</option><option value="السادسة">الحصة السادسة</option><option value="السابعة">الحصة السابعة</option>
+                    <option>الحصة الأولى</option><option>الحصة الثانية</option><option>الحصة الثالثة</option><option>الحصة الرابعة</option><option>الحصة الخامسة</option><option>الحصة السادسة</option><option>الحصة السابعة</option>
                 </select>
             </div>
             <div class="form-group" style="display:flex;align-items:end;">
@@ -539,35 +633,65 @@
         <p style="font-size:11px;color:#64748b;margin-top:6px;">تؤثر هذه الفلاتر على العرض والملخص والمؤشرات فقط، ولا تحذف أي بيانات.</p>
     </div>
 
-    <!-- ملخص وتصدير البيانات -->
-    <div class="grid" style="grid-template-columns: 2fr 1fr;">
-        <div class="card">
+    <!-- الملخص والحفظ -->
+    <section class="summary-backup-grid" aria-label="الملخص والحفظ">
+        <div class="card summary-card">
             <div class="card-title">📊 ملخص سريع للأسبوع الحالي</div>
             <div class="stats-grid">
                 <div class="stat-box positive">
-                    <span class="stat-num" id="posCount">0</span> رصد إيجابي
+                    <span class="stat-num" id="posCount">0</span>
+                    <span>رصد إيجابي</span>
                 </div>
                 <div class="stat-box negative">
-                    <span class="stat-num" id="negCount">0</span> يحتاج متابعة
+                    <span class="stat-num" id="negCount">0</span>
+                    <span>يحتاج متابعة</span>
                 </div>
                 <div class="stat-box">
-                    <span class="stat-num" id="studentCount">0</span> طالبات
+                    <span class="stat-num" id="studentCount">0</span>
+                    <span>طالبات</span>
                 </div>
             </div>
         </div>
-        <div class="card" id="backup">
-            <div class="card-title">💾 النسخ الاحتياطي</div>
-            <div class="btn-group" style="flex-direction: column;">
-                <button class="btn-success" onclick="exportExcel()" style="width: 100%;">📊 تصدير Excel (.xlsx)</button>
-                <button class="btn-secondary" onclick="exportData()" style="width: 100%;">📤 تصدير نسخة احتياطية</button>
-                <button class="btn-secondary" onclick="document.getElementById('importFile').click()" style="width: 100%;">📥 استيراد ملف البيانات</button>
+
+        <div class="card backup-card" id="backup">
+            <div class="card-title">💾 الحفظ والنسخ الاحتياطي</div>
+            <p class="backup-help">احفظي نسخة دورية من بيانات رَصْد، خصوصًا قبل تغيير الجهاز أو مسح بيانات المتصفح.</p>
+            <div class="backup-actions">
+                <button class="btn-success" onclick="exportExcel()">📊 تصدير Excel</button>
+                <button class="btn-secondary" onclick="exportData()">📤 نسخة احتياطية</button>
+                <button class="btn-secondary" onclick="document.getElementById('importFile').click()">📥 استيراد نسخة</button>
                 <input type="file" id="importFile" style="display:none" onchange="importData(event)">
-                <button class="btn-danger" onclick="clearAllData()" style="width: 100%;">🗑️ مسح كل البيانات</button>
+                <div class="backup-danger">
+                    <button class="btn-danger" onclick="clearAllData()">🗑️ مسح جميع البيانات</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="card" id="aboutRasd" style="margin-top:20px;margin-bottom:20px;">
+        <div class="card-title">ℹ️ عن رَصْد</div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:10px;">
+            <div style="padding:12px;border:1px solid var(--border);border-radius:10px;background:#f8fafc;">
+                <strong>الهدف</strong>
+                <p style="font-size:12px;color:#475569;margin:6px 0 0;">تنظيم المتابعة الصفية اليومية، تسريع الرصد، وتسهيل إعداد التقارير والتواصل المهني مع ولي الأمر.</p>
+            </div>
+            <div style="padding:12px;border:1px solid var(--border);border-radius:10px;background:#f8fafc;">
+                <strong>الخصوصية</strong>
+                <p style="font-size:12px;color:#475569;margin:6px 0 0;">تُحفظ البيانات محليًا في متصفح الجهاز، ولا يرسل رَصْد بيانات الطالبات أو الرسائل تلقائيًا إلى أي جهة.</p>
+            </div>
+            <div style="padding:12px;border:1px solid var(--border);border-radius:10px;background:#f8fafc;">
+                <strong>الاستخدام المؤسسي</strong>
+                <p style="font-size:12px;color:#475569;margin:6px 0 0;">أداة مساندة للمعلمة في تنظيم المتابعة الصفية، ولا تستبدل الأنظمة والسجلات الرسمية المعتمدة لدى المدرسة أو الجهة التعليمية.</p>
+            </div>
+            <div style="padding:12px;border:1px solid var(--border);border-radius:10px;background:#f8fafc;">
+                <strong>الإصدار</strong>
+                <p style="font-size:12px;color:#475569;margin:6px 0 0;">رَصْد v1.3 — النسخة الإدارية النهائية — 15-08-2026</p>
             </div>
         </div>
     </div>
-<footer>
-        نسخة العرض المدرسية من مشروع «رَصْد» الذكي — تحفظ البيانات محليًا في هذا المتصفح، ويُنصح بعمل نسخة احتياطية دورية.
+
+    <footer>
+        رَصْد v1.3 — النسخة الإدارية النهائية • تحفظ البيانات محليًا في هذا المتصفح، ويُنصح بعمل نسخة احتياطية دورية.
     </footer>
 </div>
 
@@ -596,8 +720,8 @@
         Object.values(days).forEach(notes => notes.forEach(n => {
             if(!matchesSummaryFilter(n)) return;
             const t=noteType(n), sub=noteSubject(n)||'غير محدد';
-            if(t.includes('ح✓')) metric.attendance++;
-            if(t.includes('ح!') || t.includes('غ!')) metric.absence++;
+            if(t.includes('ح')) metric.attendance++;
+            if(t.includes('غ')) metric.absence++;
             if(t.includes('و')) metric.homework++;
             if(t.includes('م')) metric.participation++;
             if(t.includes('س!')) metric.behavior++;
@@ -628,15 +752,18 @@
         logs: {}, // للتوافق مع النسخ السابقة
         weekLogs: {}, // سجلات مستقلة لكل أسبوع
         settings: {
-            schoolName: '',
-            teacherName: '',
             className: 'الصف أولى/أول',
             monthName: 'جمادى الأولى',
             week: 'الأسبوع الأول',
             subject: 'لغتي',
             subjectOther: '',
             period: 'الأولى',
-            lessonDate: ''
+            lessonDate: '',
+            schoolName: '',
+            teacherName: '',
+            teacherTitle: 'المعلمة',
+            academicYear: '',
+            schoolLogo: ''
         }
     };
 
@@ -658,8 +785,6 @@
         }
         if(!appData.settings) appData.settings = {};
         if(!Array.isArray(appData.assessments)) appData.assessments = [];
-        document.getElementById('schoolName').value = appData.settings.schoolName || '';
-        document.getElementById('teacherName').value = appData.settings.teacherName || '';
         document.getElementById('className').value = appData.settings.className || 'الصف أولى/أول';
         document.getElementById('monthName').value = appData.settings.monthName || 'جمادى الأولى';
         document.getElementById('weekSelect').value = appData.settings.week || 'الأسبوع الأول';
@@ -667,24 +792,33 @@
         document.getElementById('subjectOther').value = appData.settings.subjectOther || '';
         document.getElementById('periodSelect').value = appData.settings.period || 'الأولى';
         document.getElementById('lessonDate').value = appData.settings.lessonDate || new Date().toISOString().slice(0,10);
+        document.getElementById('schoolName').value = appData.settings.schoolName || '';
+        document.getElementById('teacherName').value = appData.settings.teacherName || '';
+        document.getElementById('teacherTitle').value = appData.settings.teacherTitle || 'المعلمة';
+        document.getElementById('academicYear').value = appData.settings.academicYear || '';
+        if(appData.settings.schoolLogo) showSchoolLogo(appData.settings.schoolLogo);
+        updateInstitutionHeader();
         document.getElementById('assessmentDate').value = document.getElementById('lessonDate').value;
         document.getElementById('assessmentSubject').value = selectedSubject();
         toggleSubjectOther();
-        migrateLegacyMonthData();
 
-        ['schoolName','teacherName','className','monthName','weekSelect','subjectSelect','subjectOther','periodSelect','lessonDate'].forEach(id => {
+        ['className','monthName','weekSelect','subjectSelect','subjectOther','periodSelect','lessonDate'].forEach(id => {
             const el = document.getElementById(id);
             el.addEventListener('change', () => {
                 if(id === 'subjectSelect') toggleSubjectOther();
                 if(id === 'lessonDate') syncDayFromDate();
                 saveSettings();
-                updateLessonContext();
-                if(id === 'weekSelect' || id === 'monthName') { renderTable(); updateStats(); }
+                if(id === 'weekSelect') { renderTable(); updateStats(); }
             });
             el.addEventListener('input', saveSettings);
         });
+        ['schoolName','teacherName','teacherTitle','academicYear'].forEach(id => {
+            const el = document.getElementById(id);
+            el.addEventListener('change', saveIdentity);
+            el.addEventListener('input', () => { saveIdentity(false); });
+        });
+
         syncDayFromDate();
-        updateLessonContext();
         updateStudentSelect();
         renderTable();
         updateStats();
@@ -713,22 +847,96 @@
         if(['الأحد','الاثنين','الثلاثاء','الأربعاء','الخميس'].includes(day)) {
             document.getElementById('daySelect').value = day;
         }
-        updateLessonContext();
     }
 
     function saveSettings() {
         appData.settings = {
-            schoolName: document.getElementById('schoolName').value.trim(),
-            teacherName: document.getElementById('teacherName').value.trim(),
             className: document.getElementById('className').value.trim(),
             monthName: document.getElementById('monthName').value.trim(),
             week: document.getElementById('weekSelect').value,
             subject: document.getElementById('subjectSelect').value,
             subjectOther: document.getElementById('subjectOther').value.trim(),
             period: document.getElementById('periodSelect').value,
-            lessonDate: document.getElementById('lessonDate').value
+            lessonDate: document.getElementById('lessonDate').value,
+            schoolName: appData.settings.schoolName || '',
+            teacherName: appData.settings.teacherName || '',
+            teacherTitle: appData.settings.teacherTitle || 'المعلمة',
+            academicYear: appData.settings.academicYear || '',
+            schoolLogo: appData.settings.schoolLogo || ''
         };
         saveToLocalStorage();
+    }
+
+    function saveIdentity(showMessage = true) {
+        if(!appData.settings) appData.settings = {};
+        appData.settings.schoolName = document.getElementById('schoolName').value.trim();
+        appData.settings.teacherName = document.getElementById('teacherName').value.trim();
+        appData.settings.teacherTitle = document.getElementById('teacherTitle').value.trim() || 'المعلمة';
+        appData.settings.academicYear = document.getElementById('academicYear').value.trim();
+        saveToLocalStorage();
+        updateInstitutionHeader();
+        if(showMessage) showToast('تم حفظ بيانات المدرسة والمعلمة.');
+    }
+
+    function updateInstitutionHeader() {
+        const school = (appData.settings && appData.settings.schoolName) || '';
+        const teacher = (appData.settings && appData.settings.teacherName) || '';
+        const title = (appData.settings && appData.settings.teacherTitle) || 'المعلمة';
+        const parts = [];
+        if(school) parts.push(school);
+        if(teacher) parts.push(`${title}: ${teacher}`);
+        document.getElementById('institutionHeaderLine').textContent = parts.length ? parts.join(' — ') : 'أقل تدوينًا… أدق متابعة • الإصدار الإداري النهائي v1.4';
+    }
+
+    function showSchoolLogo(src) {
+        const wrap = document.getElementById('schoolLogoPreviewWrap');
+        const img = document.getElementById('schoolLogoPreview');
+        if(!wrap || !img) return;
+        img.src = src;
+        wrap.style.display = 'flex';
+    }
+
+    function handleSchoolLogo(event) {
+        const file = event.target.files && event.target.files[0];
+        if(!file) return;
+        if(file.size > 1024 * 1024) {
+            alert('يفضل أن يكون حجم الشعار أقل من 1 ميجابايت.');
+            event.target.value = '';
+            return;
+        }
+        const reader = new FileReader();
+        reader.onload = () => {
+            if(!appData.settings) appData.settings = {};
+            appData.settings.schoolLogo = reader.result;
+            saveToLocalStorage();
+            showSchoolLogo(reader.result);
+            showToast('تم حفظ شعار المدرسة.');
+        };
+        reader.readAsDataURL(file);
+    }
+
+    function clearSchoolLogo() {
+        if(!appData.settings) appData.settings = {};
+        appData.settings.schoolLogo = '';
+        saveToLocalStorage();
+        const wrap = document.getElementById('schoolLogoPreviewWrap');
+        const img = document.getElementById('schoolLogoPreview');
+        if(img) img.removeAttribute('src');
+        if(wrap) wrap.style.display = 'none';
+        const input = document.getElementById('schoolLogoInput');
+        if(input) input.value = '';
+        showToast('تمت إزالة الشعار.');
+    }
+
+    function identityInfo() {
+        const s = appData.settings || {};
+        return {
+            school: s.schoolName || '',
+            teacher: s.teacherName || '',
+            teacherTitle: s.teacherTitle || 'المعلمة',
+            academicYear: s.academicYear || '',
+            logo: s.schoolLogo || ''
+        };
     }
 
     function recordCode(note) {
@@ -761,86 +969,16 @@
         setTimeout(() => t.style.display = 'none', 3000);
     }
 
-    // أدوات عملية للحصة: سياق واضح + تراجع آمن عن آخر مجموعة رصد
-    const undoStack = [];
-    function pushUndo(label) {
-        const week = currentWeekStorageKey();
-        const snapshot = JSON.parse(JSON.stringify((appData.weekLogs && appData.weekLogs[week]) || {}));
-        undoStack.push({week, snapshot, label});
-        if(undoStack.length > 10) undoStack.shift();
-    }
-    function undoLastRecord() {
-        const last = undoStack.pop();
-        if(!last) { showToast('لا يوجد رصد حديث للتراجع عنه.'); return; }
-        if(!appData.weekLogs) appData.weekLogs = {};
-        appData.weekLogs[last.week] = last.snapshot;
-        saveToLocalStorage();
-        renderTable();
-        updateStats();
-        showToast(`تم التراجع عن: ${last.label}`);
-    }
-    function updateLessonContext() {
-        const box = document.getElementById('lessonContext');
-        if(!box) return;
-        const school = document.getElementById('schoolName')?.value.trim();
-        const teacher = document.getElementById('teacherName')?.value.trim();
-        const cls = document.getElementById('className')?.value.trim() || 'الصف';
-        const date = document.getElementById('lessonDate')?.value || 'بدون تاريخ';
-        const day = document.getElementById('daySelect')?.value || '';
-        const period = document.getElementById('periodSelect')?.value || '';
-        const parts = [
-            school ? `🏫 ${school}` : '',
-            teacher ? `👩‍🏫 ${teacher}` : '',
-            `📚 ${cls}`,
-            `📖 ${selectedSubject()}`,
-            `🕘 الحصة ${period}`,
-            `📅 ${day} ${date}`
-        ].filter(Boolean);
-        box.innerHTML = parts.map(x=>`<span>${escapeHtml(x)}</span>`).join('');
-    }
-    function sameAttendanceContext(n) {
-        const code = noteType(n);
-        if(!(code.includes('ح✓') || code.includes('ح!') || code.includes('غ!'))) return false;
-        const currentDate = document.getElementById('lessonDate').value || '';
-        return !currentDate || !noteDate(n) || noteDate(n) === currentDate;
-    }
-    function markAllPresent() {
-        if(!appData.students.length) { alert('أضيفي قائمة الطالبات أولاً.'); return; }
-        const day = document.getElementById('daySelect').value;
-        const weekLogs = getWeekLogs(true);
-        pushUndo('تسجيل حضور الجميع');
-        let added = 0, preserved = 0;
-        appData.students.forEach(st => {
-            if(!weekLogs[st.id]) weekLogs[st.id] = {};
-            if(!weekLogs[st.id][day]) weekLogs[st.id][day] = [];
-            const hasAttendance = weekLogs[st.id][day].some(sameAttendanceContext);
-            if(hasAttendance) { preserved++; return; }
-            weekLogs[st.id][day].push({
-                code:'ح✓',
-                subject:selectedSubject(),
-                period:document.getElementById('periodSelect').value,
-                date:document.getElementById('lessonDate').value || new Date().toISOString().slice(0,10)
-            });
-            added++;
-        });
-        saveToLocalStorage();
-        renderTable();
-        showToast(`تم تسجيل حضور ${added} طالبة${preserved ? `، مع إبقاء ${preserved} حالة مسجلة مسبقًا` : ''}.`);
-    }
-    function normalizeArabicDigits(value) {
-        const ar='٠١٢٣٤٥٦٧٨٩', fa='۰۱۲۳۴۵۶۷۸۹';
-        return String(value||'').replace(/[٠-٩]/g,d=>ar.indexOf(d)).replace(/[۰-۹]/g,d=>fa.indexOf(d));
-    }
-
     function updateStudentSelect() {
         const select = document.getElementById('studentSelect');
         const parentSelect = document.getElementById('parentStudentSelect');
         const reportSelect = document.getElementById('reportStudentSelect');
         const assessmentSelect = document.getElementById('assessmentStudent');
-        select.innerHTML = '<option value="">اختر الطالبة...</option>';
-        if(parentSelect) parentSelect.innerHTML = '<option value="">اختر الطالبة...</option>';
-        if(reportSelect) reportSelect.innerHTML = '<option value="">اختر الطالبة...</option>';
-        if(assessmentSelect) assessmentSelect.innerHTML = '<option value="">اختر الطالبة...</option>';
+        const studentPlaceholder = appData.students.length ? `اختر الطالبة... (${appData.students.length})` : 'اختر الطالبة...';
+        select.innerHTML = `<option value="">${studentPlaceholder}</option>`;
+        if(parentSelect) parentSelect.innerHTML = `<option value="">${studentPlaceholder}</option>`;
+        if(reportSelect) reportSelect.innerHTML = `<option value="">${studentPlaceholder}</option>`;
+        if(assessmentSelect) assessmentSelect.innerHTML = `<option value="">${studentPlaceholder}</option>`;
         appData.students.forEach(s => {
             const option = `<option value="${s.id}">${s.id} - ${s.name}</option>`;
             select.innerHTML += option;
@@ -853,37 +991,12 @@
     function currentWeekKey() {
         return document.getElementById('weekSelect').value || 'الأسبوع الأول';
     }
-    function currentMonthKey() {
-        return document.getElementById('monthName').value.trim() || 'الشهر';
-    }
-    function currentWeekStorageKey() {
-        return `${currentMonthKey()}||${currentWeekKey()}`;
-    }
+
     function getWeekLogs(create = false) {
-        const key = currentWeekStorageKey();
+        const week = currentWeekKey();
         if(!appData.weekLogs) appData.weekLogs = {};
-        if(create && !appData.weekLogs[key]) appData.weekLogs[key] = {};
-        return appData.weekLogs[key] || {};
-    }
-    function migrateLegacyMonthData() {
-        if(!appData.weekLogs) appData.weekLogs = {};
-        const month = (appData.settings && appData.settings.monthName) || currentMonthKey();
-        const keys = Object.keys(appData.weekLogs);
-        if(keys.length && keys.every(k=>!k.includes('||'))) {
-            const migrated = {};
-            keys.forEach(k => { migrated[`${month}||${k}`] = appData.weekLogs[k]; });
-            appData.weekLogs = migrated;
-        }
-        if(Array.isArray(appData.assessments)) {
-            appData.assessments.forEach(a => {
-                if(a && a.week && !String(a.week).includes('||')) {
-                    const label = String(a.week);
-                    a.month = a.month || month;
-                    a.weekLabel = a.weekLabel || label;
-                    a.week = `${a.month}||${label}`;
-                }
-            });
-        }
+        if(create && !appData.weekLogs[week]) appData.weekLogs[week] = {};
+        return appData.weekLogs[week] || {};
     }
 
     function noteType(n){ return typeof n === 'string' ? n : ((n && (n.code || n.type)) || ''); }
@@ -918,7 +1031,6 @@
 
     function renderTable() {
         const tbody = document.getElementById('tableBody');
-        if(!tbody) return;
         tbody.innerHTML = '';
 
         if(appData.students.length === 0) {
@@ -952,7 +1064,7 @@
                     const meta = recordMeta(n);
                     let badgeClass = 'badge-m';
                     if(code.includes('ح✓')) badgeClass = 'badge-a';
-                    if(code.includes('ح!')) badgeClass = 'badge-abs';
+                    if(code.includes('ح!') || code.includes('غ!')) badgeClass = 'badge-abs';
                     if(code.includes('و')) badgeClass = 'badge-w';
                     if(code.includes('س!')) badgeClass = 'badge-s';
                     if(code.includes('س⭐')) badgeClass = 'badge-t';
@@ -989,39 +1101,23 @@
         document.getElementById('negCount').innerText = neg;
     }
 
-    function hasAnyTrackingData() {
-        const hasLogs = Object.values(appData.weekLogs || {}).some(week => Object.keys(week || {}).length > 0);
-        const hasAssessments = Array.isArray(appData.assessments) && appData.assessments.length > 0;
-        return hasLogs || hasAssessments;
-    }
-    function confirmRosterReplacement() {
-        if(!appData.students.length || !hasAnyTrackingData()) return true;
-        return confirm('سيتم استبدال قائمة الطالبات ومسح الرصد والتقييمات المرتبطة بالقائمة الحالية حتى لا تنتقل بيانات طالبة إلى اسم آخر. هل تريدين المتابعة؟');
-    }
-    function resetTrackingForNewRoster() {
-        appData.logs = {};
-        appData.weekLogs = {};
-        appData.assessments = [];
-    }
-
     function saveBulkNames() {
-        const rosterText = document.getElementById('bulkNames').value.trim();
-        if(!rosterText) return;
-        const cleanLines = rosterText.split(/\r?\n/).map(x=>x.trim()).filter(Boolean);
-        if(cleanLines.length > 50) { alert('الحد الأقصى 50 طالبة. اختصري القائمة إلى 50 اسمًا.'); return; }
-        if(!confirmRosterReplacement()) return;
-        resetTrackingForNewRoster();
-        appData.students = cleanLines.map((name, index)=>({id:index+1, name}));
+        const text = document.getElementById('bulkNames').value.trim();
+        if(!text) return;
+        const lines = text.split(/\r?\n/).map(line => line.trim()).filter(Boolean);
+        const limited = lines.slice(0, 50);
+        appData.students = limited.map((name, index) => ({ id: index + 1, name }));
         saveToLocalStorage();
         updateStudentSelect();
         renderTable();
-        document.getElementById('bulkNames').value = '';
-        showToast(`تم حفظ ${appData.students.length} طالبة وبدء سجل نظيف للقائمة.`);
+        if(lines.length > 50) {
+            showToast('تم حفظ أول 50 طالبة فقط؛ الحد الأقصى 50 طالبة.');
+        } else {
+            showToast(`تم حفظ ${appData.students.length} طالبة مع ترقيم تلقائي من 1 إلى ${appData.students.length}.`);
+        }
     }
 
     function generate50Empty() {
-        if(!confirmRosterReplacement()) return;
-        resetTrackingForNewRoster();
         appData.students = [];
         for(let i=1; i<=50; i++) {
             appData.students.push({ id: i, name: `طالبة رقم ${i}` });
@@ -1029,7 +1125,7 @@
         saveToLocalStorage();
         updateStudentSelect();
         renderTable();
-        showToast('تم إنشاء 50 خانة مرتبة وبدء سجل نظيف.');
+        showToast('تم توليد 50 خانة فارغة بنجاح.');
     }
 
     function clearNames() {
@@ -1037,7 +1133,6 @@
             appData.students = [];
             appData.logs = {};
             appData.weekLogs = {};
-            appData.assessments = [];
             saveToLocalStorage();
             updateStudentSelect();
             renderTable();
@@ -1059,20 +1154,11 @@
         const weekLogs = getWeekLogs(true);
         if(!weekLogs[studentId]) weekLogs[studentId] = {};
         if(!weekLogs[studentId][day]) weekLogs[studentId][day] = [];
-        const date = document.getElementById('lessonDate').value || new Date().toISOString().slice(0,10);
-        if(type === 'ح✓' || type === 'ح!' || type === 'غ!') {
-            weekLogs[studentId][day] = weekLogs[studentId][day].filter(n => {
-                const c = noteType(n);
-                const attendance = c.includes('ح✓') || c.includes('ح!') || c.includes('غ!');
-                const sameDate = !noteDate(n) || noteDate(n) === date;
-                return !(attendance && sameDate);
-            });
-        }
         weekLogs[studentId][day].push({
             code: type,
             subject: selectedSubject(),
             period: document.getElementById('periodSelect').value,
-            date
+            date: document.getElementById('lessonDate').value || new Date().toISOString().slice(0,10)
         });
         saveToLocalStorage();
     }
@@ -1080,9 +1166,8 @@
     function addManualPrompt(sId, day) {
         let currentStudent = appData.students.find(s => s.id == sId);
         let note = prompt(`رصد يدوي للطالبة: ${currentStudent.name} ليوم ${day}.
-اكتبي الرمز (ح✓، ح!، م⭐، و!، س!، س⭐):`);
+اكتبي الرمز (ح✓، غ!، م⭐، و!، س!، ت⭐):`);
         if(note) {
-            pushUndo('الرصد اليدوي');
             logRecord(sId, day, note);
             renderTable();
         }
@@ -1090,62 +1175,44 @@
 
     // محرك اللغة الطبيعية المحلي والذكي
     function processNaturalLanguage() {
-        let input = document.getElementById('naturalInput').value.trim();
+        const input = document.getElementById('naturalInput').value.trim();
         if(!input) return;
-        input = normalizeArabicDigits(input);
 
         const currentDay = document.getElementById('daySelect').value;
-        const keywordCode = [
-            {re:/(غياب|غائبة|غائب)/, code:'ح!'},
-            {re:/(حضور|حاضرة|حاضر)/, code:'ح✓'},
-            {re:/(واجب|ناقص)/, code:'و!'},
-            {re:/(تحسن|تحسّن|تعدل|تغيّر للأفضل)/, code:'س⭐'},
-            {re:/(سلوك|كلام|مشاغبة)/, code:'س!'},
-            {re:/(مشاركة|ممتازة|جاوبت|تفاعل)/, code:'م⭐'}
-        ];
-        const resolveCode = phrase => {
-            const item = keywordCode.find(x=>x.re.test(phrase));
-            return item ? item.code : '';
-        };
-
+        // تقسيم العبارات عبر الواصلات أو الفواصل
+        const phrases = input.split(/[،,•\n]+/);
         let count = 0;
-        let ignored = 0;
-        let snapshotTaken = false;
-        const add = (studentId, code) => {
-            if(!appData.students.some(s => String(s.id) === String(studentId))) { ignored++; return; }
-            if(!snapshotTaken) { pushUndo('الرصد الجماعي بالأرقام'); snapshotTaken = true; }
-            logRecord(studentId, currentDay, code);
+
+        phrases.forEach(phrase => {
+            if(!phrase.trim()) return;
+            
+            // استخراج الرقم من بداية الجملة
+            const matchNumber = phrase.match(/\d+/);
+            if(!matchNumber) return;
+            
+            const studentId = matchNumber[0];
+            
+            // التحقق من وجود الطالبة
+            if(!appData.students.some(s => s.id == studentId)) return;
+
+            let type = '';
+            if(phrase.includes('غائبة') || phrase.includes('غياب') || phrase.includes('لم تحضر اليوم')) type = 'غ!';
+            else if(phrase.includes('حاضرة') || phrase.includes('حضرت اليوم')) type = 'ح✓';
+            else if(phrase.includes('واجب') || phrase.includes('ناقص')) type = 'و!';
+            else if(phrase.includes('تحسن') || phrase.includes('تعدل')) type = 'س⭐';
+            else if(phrase.includes('كلام') || phrase.includes('مشاغبة') || phrase.includes('سلوك')) type = 'س!';
+            else if(phrase.includes('مشاركة') || phrase.includes('ممتازة') || phrase.includes('جاوبت')) type = 'م⭐';
+            else type = 'م⭐'; // افتراضي مشاركة
+
+            logRecord(studentId, currentDay, type);
             count++;
-        };
-
-        const chunks = input.split(/[;\n]+/).map(x=>x.trim()).filter(Boolean);
-        chunks.forEach(chunk => {
-            const colon = chunk.match(/^([^:：]+)[:：]\s*(.+)$/);
-            if(colon) {
-                const code = resolveCode(colon[1]);
-                if(code) {
-                    const ids = (colon[2].match(/\d+/g) || []);
-                    ids.forEach(id=>add(id, code));
-                    return;
-                }
-            }
-
-            const phrases = chunk.split(/[،,•]+/).map(x=>x.trim()).filter(Boolean);
-            phrases.forEach(phrase => {
-                const matchNumber = phrase.match(/\d+/);
-                if(!matchNumber) { ignored++; return; }
-                const studentId = matchNumber[0];
-                const code = resolveCode(phrase);
-                if(!code) { ignored++; return; }
-                add(studentId, code);
-            });
         });
 
         renderTable();
         document.getElementById('naturalInput').value = '';
-        if(count) showToast(`تم رصد ${count} حالة${ignored ? `، وتعذر فهم ${ignored}` : ''}.`);
-        else showToast('لم يتم العثور على صيغة رصد واضحة. استخدمي مثال: غياب: 3، 7');
+        showToast(`تمت معالجة ورصد ${count} جملة بنجاح.`);
     }
+
 
     function toggleAssessmentActionOther(){
         const sel=document.getElementById('assessmentAction');
@@ -1167,12 +1234,12 @@
         const hasScore=scoreRaw!=='' || maxRaw!=='';
         if(hasScore && (scoreRaw==='' || maxRaw==='')){alert('إذا رغبتِ بإضافة الدرجة، أدخلي الدرجة الحاصلة عليها والدرجة الكاملة معًا.');return;}
         const score=scoreRaw===''?null:Number(scoreRaw), max=maxRaw===''?null:Number(maxRaw);
-        if(hasScore && (!Number.isFinite(score)||!Number.isFinite(max)||max<=0||score<0||score>max)){alert('تحققي من الدرجة: يجب أن تكون بين 0 والدرجة الكاملة.');return;}
+        if(hasScore && (!Number.isFinite(score)||!Number.isFinite(max)||max<=0||score<0)){alert('تحققي من الدرجة والدرجة الكاملة.');return;}
         const actionSel=document.getElementById('assessmentAction').value;
         const action=actionSel==='أخرى'?(document.getElementById('assessmentActionOther').value.trim()||'إجراء آخر'):actionSel;
         if(!hasScore && !action && !document.getElementById('assessmentNote').value.trim()){alert('لا يوجد شيء للحفظ. أضيفي درجة أو إجراء أو ملاحظة.');return;}
         if(!Array.isArray(appData.assessments)) appData.assessments=[];
-        const rec={id:Date.now(),studentId:String(sid),type:document.getElementById('assessmentType').value,score,max,subject:document.getElementById('assessmentSubject').value.trim()||selectedSubject(),date:document.getElementById('assessmentDate').value||document.getElementById('lessonDate').value,day:document.getElementById('daySelect').value,action,note:document.getElementById('assessmentNote').value.trim(),month:currentMonthKey(),weekLabel:currentWeekKey(),week:currentWeekStorageKey(),period:document.getElementById('periodSelect').value};
+        const rec={id:Date.now(),studentId:String(sid),type:document.getElementById('assessmentType').value,score,max,subject:document.getElementById('assessmentSubject').value.trim()||selectedSubject(),date:document.getElementById('assessmentDate').value||document.getElementById('lessonDate').value,day:document.getElementById('daySelect').value,action,note:document.getElementById('assessmentNote').value.trim(),week:currentWeekKey(),period:document.getElementById('periodSelect').value};
         appData.assessments.push(rec); saveToLocalStorage();
         const st=appData.students.find(x=>String(x.id)===String(sid));
         const pct=hasScore?Math.round((score/max)*1000)/10:null;
@@ -1182,16 +1249,12 @@
     }
     function assessmentsForStudent(studentId, scope='week'){
         const all=Array.isArray(appData.assessments)?appData.assessments:[];
-        return all.filter(a=>{
-            if(String(a.studentId)!==String(studentId)) return false;
-            if(scope==='month') return (a.month || String(a.week||'').split('||')[0]) === currentMonthKey();
-            return a.week===currentWeekStorageKey();
-        });
+        return all.filter(a=>String(a.studentId)===String(studentId) && (scope==='month' || a.week===currentWeekKey()));
     }
     function positiveCountFor(studentId, scope){
         const wl=getWeekLogs(false), days=scope==='day'?[document.getElementById('daySelect').value]:['الأحد','الاثنين','الثلاثاء','الأربعاء','الخميس'];
         let p=0,im=0;
-        days.forEach(day=>{const notes=(wl[studentId]&&wl[studentId][day])||[];notes.forEach(n=>{if(noteSubject(n) && noteSubject(n)!==selectedSubject()) return;const t=noteType(n);if(t.includes('م⭐'))p++;if(t.includes('س⭐'))im++;});});
+        days.forEach(day=>{const notes=(wl[studentId]&&wl[studentId][day])||[];notes.forEach(n=>{const t=noteType(n);if(t.includes('م⭐'))p++;if(t.includes('س⭐'))im++;});});
         return {participation:p,improvement:im,total:p+im};
     }
     function openClassroomDisplay(){
@@ -1205,11 +1268,11 @@
         if(!appData.students.length){grid.innerHTML='<div style="text-align:center;color:#64748b;">لا توجد طالبات.</div>';return;}
         grid.innerHTML=appData.students.map(st=>{const c=positiveCountFor(st.id,scope);const title=identity==='number'?`طالبة رقم ${st.id}`:escapeHtml(st.name);return `<div class="student-board-card"><div class="student-title">${title}</div><div class="points">⭐ ${c.total}</div><div><span class="tag">مشاركة ${c.participation}</span><span class="tag">تحسن ${c.improvement}</span></div><div class="board-actions"><button class="btn-primary" onclick="boardQuickPositive('${st.id}','م⭐')">⭐ مشاركة</button><button class="btn-success" onclick="boardQuickPositive('${st.id}','س⭐')">🌱 تحسن</button></div></div>`;}).join('');
     }
-    function boardQuickPositive(studentId,code){pushUndo('تعزيز صفي');logRecord(studentId,document.getElementById('daySelect').value,code);renderClassroomDisplay();renderTable();showToast('تم تسجيل تعزيز إيجابي.');}
+    function boardQuickPositive(studentId,code){logRecord(studentId,document.getElementById('daySelect').value,code);renderClassroomDisplay();renderTable();showToast('تم تسجيل تعزيز إيجابي.');}
 
     function parentFriendlyNote(note) {
         const code = recordCode(note).trim();
-        if(code.includes('ح!')) return 'غياب';
+        if(code.includes('ح!') || code.includes('غ!')) return 'غياب';
         if(code.includes('ح✓')) return 'حضور';
         if(code.includes('و!')) return 'عدم إحضار الواجب';
         if(code.includes('م⭐')) return 'مشاركة مميزة';
@@ -1292,11 +1355,10 @@
             msg += `\nالتقييم الأكاديمي:\n${assessmentLines.join('\n')}\n`;
             if(actions.length) msg += `\nإجراءات المتابعة المسجلة:\n${actions.map(a=>'• '+a).join('\n')}\n`;
         }
+        const ident = identityInfo();
         msg += `\nنأمل تعاونكم في المتابعة، مع خالص الشكر والتقدير.`;
-        const teacher = document.getElementById('teacherName').value.trim();
-        const school = document.getElementById('schoolName').value.trim();
-        if(teacher || school) {
-            msg += `\n\n${teacher ? `المعلمة/ ${teacher}` : ''}${teacher && school ? '\n' : ''}${school ? `المدرسة/ ${school}` : ''}`;
+        if(ident.teacher || ident.school) {
+            msg += `\n\n${ident.teacher ? ident.teacherTitle + ': ' + ident.teacher : ''}${ident.teacher && ident.school ? '\n' : ''}${ident.school ? ident.school : ''}`;
         }
         box.value = msg;
     }
@@ -1352,19 +1414,15 @@
 
     function collectStudentReportRecords(studentId, scope) {
         const dayOrder = { 'الأحد':0, 'الاثنين':1, 'الثلاثاء':2, 'الأربعاء':3, 'الخميس':4 };
-        const monthPrefix = `${currentMonthKey()}||`;
-        const weeks = scope === 'month'
-            ? Object.keys(appData.weekLogs || {}).filter(k=>k.startsWith(monthPrefix))
-            : [currentWeekStorageKey()];
+        const weeks = scope === 'month' ? Object.keys(appData.weekLogs || {}) : [currentWeekKey()];
         const records = [];
-        weeks.forEach(storageKey => {
-            const wl = (appData.weekLogs && appData.weekLogs[storageKey]) || {};
+        weeks.forEach(week => {
+            const wl = (appData.weekLogs && appData.weekLogs[week]) || {};
             const studentDays = wl[studentId] || {};
-            const weekLabel = storageKey.includes('||') ? storageKey.split('||').slice(1).join('||') : storageKey;
             Object.entries(studentDays).forEach(([day, notes]) => {
                 (Array.isArray(notes) ? notes : []).forEach(n => {
                     records.push({
-                        week: weekLabel,
+                        week,
                         day,
                         date: noteDate(n) || '',
                         subject: noteSubject(n) || 'غير محدد',
@@ -1438,12 +1496,26 @@
         const rows = data.records.length ? data.records.map(r => `<tr><td>${escapeHtml(r.week)}</td><td>${escapeHtml(r.day)}</td><td>${escapeHtml(r.date || '—')}</td><td>${escapeHtml(r.subject)}</td><td>${escapeHtml(r.period)}</td><td>${escapeHtml(r.label)}</td></tr>`).join('') : `<tr><td colspan="6" style="text-align:center;color:#64748b;">لا توجد ملاحظات في الفترة المحددة.</td></tr>`;
         out.innerHTML = `
             <div id="studentReportPrintable">
-                <div style="text-align:center;margin-bottom:14px;">
-                    <h2 style="margin:0;color:#1e3a8a;">رَصْد — تقرير طالبة</h2>
-                    <div style="margin-top:6px;font-size:16px;font-weight:700;">${escapeHtml(data.student.name)}</div>
-                    <div style="color:#475569;font-size:12px;margin-top:4px;">${escapeHtml(document.getElementById('schoolName').value || '')}${document.getElementById('teacherName').value ? ` — المعلمة: ${escapeHtml(document.getElementById('teacherName').value)}` : ''}</div>
-                    <div style="color:#64748b;font-size:12px;">${escapeHtml(document.getElementById('className').value || '—')} — ${periodText}</div>
+                ${(() => { const ident=identityInfo(); return `
+                <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;border-bottom:2px solid #1e3a8a;padding-bottom:10px;margin-bottom:14px;">
+                    <div style="text-align:right;flex:1;">
+                        ${ident.school ? `<div style="font-size:14px;font-weight:800;color:#0f172a;">${escapeHtml(ident.school)}</div>` : ''}
+                        ${ident.academicYear ? `<div style="font-size:11px;color:#64748b;">العام الدراسي: ${escapeHtml(ident.academicYear)}</div>` : ''}
+                    </div>
+                    <div style="text-align:center;flex:1.4;">
+                        <h2 style="margin:0;color:#1e3a8a;">رَصْد — تقرير متابعة طالبة</h2>
+                        <div style="margin-top:5px;font-size:16px;font-weight:700;">${escapeHtml(data.student.name)}</div>
+                    </div>
+                    <div style="width:72px;text-align:left;">
+                        ${ident.logo ? `<img src="${ident.logo}" alt="شعار المدرسة" style="max-width:64px;max-height:64px;object-fit:contain;">` : ''}
+                    </div>
                 </div>
+                <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:6px 14px;margin-bottom:14px;font-size:12px;color:#334155;">
+                    <div><b>الصف:</b> ${escapeHtml(document.getElementById('className').value || '—')}</div>
+                    <div><b>الفترة:</b> ${periodText}</div>
+                    <div><b>المادة:</b> ${escapeHtml(selectedSubject())}</div>
+                    <div><b>تاريخ إصدار التقرير:</b> ${escapeHtml(new Date().toLocaleDateString('ar-SA'))}</div>
+                </div>`; })()}
                 <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:14px;">${metricCards}</div>
                 <div style="padding:12px;border-radius:10px;background:#eff6ff;margin-bottom:12px;"><b>الملخص:</b> ${escapeHtml(data.summary)}</div>
                 <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px;">
@@ -1458,6 +1530,19 @@
                         <tbody>${rows}</tbody>
                     </table>
                 </div>
+                ${(() => { const ident=identityInfo(); return `
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:28px;padding-top:14px;border-top:1px solid #cbd5e1;font-size:12px;">
+                    <div>
+                        <b>إعداد ${escapeHtml(ident.teacherTitle || 'المعلمة')}:</b>
+                        <div style="margin-top:8px;">${escapeHtml(ident.teacher || '________________________')}</div>
+                        <div style="margin-top:18px;">التوقيع: ________________________</div>
+                    </div>
+                    <div>
+                        <b>اعتماد الإدارة:</b>
+                        <div style="margin-top:8px;">الاسم: ________________________</div>
+                        <div style="margin-top:18px;">التوقيع / الختم: ________________________</div>
+                    </div>
+                </div>`; })()}
             </div>`;
         out.style.display = 'block';
         out.dataset.summary = data.summary;
@@ -1501,10 +1586,9 @@
         const days = ["الأحد", "الاثنين", "الثلاثاء", "الأربعاء", "الخميس"];
         const week = currentWeekKey();
         const weekLogs = getWeekLogs(false);
-        const schoolName = document.getElementById('schoolName').value.trim() || '';
-        const teacherName = document.getElementById('teacherName').value.trim() || '';
         const className = document.getElementById('className').value.trim() || 'الصف';
         const monthName = document.getElementById('monthName').value.trim() || 'الشهر';
+        const ident = identityInfo();
 
         function notesFor(studentId, day) {
             return (weekLogs[studentId] && weekLogs[studentId][day]) ? weekLogs[studentId][day] : [];
@@ -1513,7 +1597,7 @@
         function friendlyNote(note) {
             const n = recordCode(note).trim();
             if(n.includes('ح✓')) return 'حضور';
-            if(n.includes('ح!')) return 'غياب';
+            if(n.includes('ح!') || n.includes('غ!')) return 'غياب';
             if(n.includes('و!')) return 'لم تحضر الواجب';
             if(n.includes('م⭐')) return 'مشاركة مميزة';
             if(n.includes('س!')) return 'ملاحظة سلوكية';
@@ -1524,7 +1608,7 @@
         function shortNote(note) {
             const n = recordCode(note).trim();
             if(n.includes('ح✓')) return 'ح';
-            if(n.includes('ح!')) return 'غ';
+            if(n.includes('ح!') || n.includes('غ!')) return 'غ';
             if(n.includes('و!')) return 'و';
             if(n.includes('م⭐')) return 'م';
             if(n.includes('س!')) return 'س';
@@ -1532,21 +1616,21 @@
             return n;
         }
 
-        function recordedWeekDates() {
+        function currentWeekDates() {
+            const now = new Date();
+            const sunday = new Date(now);
+            sunday.setHours(0,0,0,0);
+            sunday.setDate(now.getDate() - now.getDay());
             const map = {};
-            days.forEach(day => {
-                let found = '';
-                for(const student of appData.students) {
-                    const notes = notesFor(student.id, day);
-                    const dated = notes.find(n => noteDate(n));
-                    if(dated) { found = noteDate(dated); break; }
-                }
-                map[day] = found;
+            days.forEach((day, idx) => {
+                const d = new Date(sunday);
+                d.setDate(sunday.getDate() + idx);
+                map[day] = `${d.getDate()}/${d.getMonth()+1}/${d.getFullYear()}`;
             });
             return map;
         }
 
-        const weekDates = recordedWeekDates();
+        const weekDates = currentWeekDates();
 
         function countCode(studentId, code) {
             let count = 0;
@@ -1558,21 +1642,27 @@
             return count;
         }
 
+        function countAbsence(studentId) {
+            return countCode(studentId, 'غ!') + countCode(studentId, 'ح!');
+        }
+
         function dayText(studentId, day) {
             const notes = notesFor(studentId, day).map(shortNote);
             return notes.length ? notes.join('، ') : '—';
         }
 
         function dayHeader(day) {
-            return weekDates[day] ? `${day} ${weekDates[day]}` : day;
+            return `${day} ${weekDates[day]}`;
         }
 
         // الورقة الأولى: سجل رأسي مبسط ومناسب للجوال
         const logData = [];
         logData.push(['رَصْد — سجل المتابعة']);
-        logData.push(['المدرسة', schoolName || '—', 'المعلمة', teacherName || '—']);
-        logData.push(['الصف', className, 'الشهر', monthName]);
-        logData.push(['الأسبوع', week, 'تاريخ التصدير', new Date().toLocaleDateString('ar-SA')]);
+        logData.push(['المدرسة', ident.school || '', 'المعلمة', ident.teacher || '', 'العام الدراسي', ident.academicYear || '']);
+        logData.push(['الصف', className]);
+        logData.push(['الشهر', monthName]);
+        logData.push(['الأسبوع', week]);
+        logData.push(['تاريخ التصدير', new Date().toLocaleDateString('ar-SA')]);
         logData.push([]);
         logData.push(['رقم', 'اسم الطالبة', 'اليوم', 'التاريخ', 'المادة', 'الحصة', 'الملاحظة']);
 
@@ -1586,7 +1676,7 @@
                         student.id,
                         student.name,
                         day,
-                        meta.date || weekDates[day] || '—',
+                        meta.date || weekDates[day],
                         meta.subject || '—',
                         meta.period ? `الحصة ${meta.period}` : '—',
                         friendlyNote(note)
@@ -1600,22 +1690,22 @@
         const logWs = XLSX.utils.aoa_to_sheet(logData);
         logWs['!merges'] = [XLSX.utils.decode_range('A1:G1')];
         logWs['!cols'] = [{wch:8}, {wch:28}, {wch:12}, {wch:14}, {wch:18}, {wch:16}, {wch:32}];
-        logWs['!autofilter'] = { ref: `A6:G${logData.length}` };
-        logWs['!freeze'] = { xSplit: 0, ySplit: 6, topLeftCell: 'A7', activePane: 'bottomLeft', state: 'frozen' };
+        logWs['!autofilter'] = { ref: `A8:G${logData.length}` };
+        logWs['!freeze'] = { xSplit: 0, ySplit: 8, topLeftCell: 'A9', activePane: 'bottomLeft', state: 'frozen' };
 
         // الورقة الثانية: ملخص واضح لكل طالبة
         const summaryData = [];
         summaryData.push(['رَصْد — ملخص الأسبوع']);
-        summaryData.push(['المدرسة', schoolName || '—', 'المعلمة', teacherName || '—']);
-        summaryData.push(['الصف', className, 'الشهر', monthName, 'الأسبوع', week]);
-        summaryData.push(['آخر مادة مختارة', selectedSubject(), 'آخر حصة مختارة', document.getElementById('periodSelect').value]);
+        summaryData.push(['المدرسة', ident.school || '', 'المعلمة', ident.teacher || '', 'العام الدراسي', ident.academicYear || '']);
+        summaryData.push(['الصف', className, 'الشهر', monthName]);
+        summaryData.push(['الأسبوع', week, 'آخر مادة مختارة', selectedSubject(), 'آخر حصة مختارة', document.getElementById('periodSelect').value]);
         summaryData.push([]);
         summaryData.push(['رقم', 'اسم الطالبة', 'حضور', 'غياب', 'واجب', 'مشاركة', 'سلوك', 'تحسن']);
 
         let totals = {present:0, absent:0, homework:0, participation:0, behavior:0, improvement:0};
         appData.students.forEach(student => {
             const present = countCode(student.id, 'ح✓');
-            const absent = countCode(student.id, 'ح!');
+            const absent = countAbsence(student.id);
             const homework = countCode(student.id, 'و!');
             const participation = countCode(student.id, 'م⭐');
             const behavior = countCode(student.id, 'س!');
@@ -1641,7 +1731,11 @@
             };
         }
 
-        const mostAbsent = leadersBy('ح!');
+        const mostAbsent = (() => {
+            const scored = appData.students.map(student => ({ name: student.name, count: countAbsence(student.id) }));
+            const max = scored.reduce((m, item) => Math.max(m, item.count), 0);
+            return max === 0 ? { names: 'لا يوجد', count: 0 } : { names: scored.filter(item => item.count === max).map(item => item.name).join('، '), count: max };
+        })();
         const mostBehavior = leadersBy('س!');
         const mostParticipation = leadersBy('م⭐');
         const mostImprovement = leadersBy('س⭐');
@@ -1669,7 +1763,7 @@
         // الورقة الثالثة: الجدول الأسبوعي الكامل للطباعة أو العرض على الكمبيوتر
         const gridData = [];
         gridData.push(['رَصْد — الجدول الأسبوعي']);
-        gridData.push(['المدرسة', schoolName || '—', 'المعلمة', teacherName || '—']);
+        gridData.push(['المدرسة', ident.school || '', 'المعلمة', ident.teacher || '', 'العام الدراسي', ident.academicYear || '']);
         gridData.push(['الصف', className, 'الشهر', monthName, 'الأسبوع', week]);
         gridData.push(['ملاحظة', 'تفاصيل المادة والحصة والتاريخ محفوظة في ورقة سجل المتابعة']);
         gridData.push(['مفتاح الرموز', 'ح=حضور | غ=غياب | و=واجب | م=مشاركة | س=سلوك | ت=تحسن']);
@@ -1678,7 +1772,7 @@
 
         appData.students.forEach(student => {
             const present = countCode(student.id, 'ح✓');
-            const absent = countCode(student.id, 'ح!');
+            const absent = countAbsence(student.id);
             const homework = countCode(student.id, 'و!');
             const participation = countCode(student.id, 'م⭐');
             const behavior = countCode(student.id, 'س!');
@@ -1703,13 +1797,13 @@
         gridWs['!cols'] = [
             {wch:7}, {wch:24}, {wch:17}, {wch:17}, {wch:17}, {wch:17}, {wch:17}, {wch:34}
         ];
-        gridWs['!autofilter'] = { ref: `A7:H${gridData.length}` };
-        gridWs['!freeze'] = { xSplit: 2, ySplit: 7, topLeftCell: 'C8', activePane: 'bottomRight', state: 'frozen' };
+        gridWs['!autofilter'] = { ref: `A6:H${gridData.length}` };
+        gridWs['!freeze'] = { xSplit: 2, ySplit: 6, topLeftCell: 'C7', activePane: 'bottomRight', state: 'frozen' };
 
 
         // الورقة الرابعة: التقييمات والإجراءات الاختيارية
-        const assessmentData = [['رَصْد — التقييمات والإجراءات الاختيارية'],['المدرسة',schoolName||'—','المعلمة',teacherName||'—'],['الصف',className,'الشهر',monthName,'الأسبوع',week],[],['الطالبة','المادة','النوع','الدرجة','من','النسبة %','التاريخ','الإجراء','الملاحظة']];
-        (Array.isArray(appData.assessments)?appData.assessments:[]).filter(a=>a.week===currentWeekStorageKey()).forEach(a=>{
+        const assessmentData = [['رَصْد — التقييمات والإجراءات الاختيارية'],['المدرسة',ident.school||'','المعلمة',ident.teacher||'','العام الدراسي',ident.academicYear||''],['الصف',className,'الشهر',monthName,'الأسبوع',week],[],['الطالبة','المادة','النوع','الدرجة','من','النسبة %','التاريخ','الإجراء','الملاحظة']];
+        (Array.isArray(appData.assessments)?appData.assessments:[]).filter(a=>a.week===week).forEach(a=>{
             const st=appData.students.find(s=>String(s.id)===String(a.studentId));
             const pct=(a.score!==null&&a.max!==null&&a.max)?Math.round((a.score/a.max*100)*10)/10:'';
             assessmentData.push([st?st.name:a.studentId,a.subject||'',a.type||'',a.score??'',a.max??'',pct,a.date||'',a.action||'',a.note||'']);
@@ -1728,8 +1822,8 @@
         wb.Workbook = { Views: [{ RTL: true }] };
         wb.Props = {
             Title: `رَصْد - ${className} - ${monthName} - ${week}`,
-            Subject: 'تقرير المتابعة الصفية الأسبوعي',
-            Author: 'رَصْد'
+            Subject: `تقرير المتابعة الصفية الأسبوعي${ident.school ? ' — ' + ident.school : ''}`,
+            Author: ident.teacher || 'رَصْد'
         };
 
         const out = XLSX.write(wb, { bookType: 'xlsx', type: 'array' });
@@ -1747,7 +1841,7 @@
                     title: 'تقرير رَصْد',
                     text: `${className} — ${monthName} — ${week}`
                 });
-                showToast('تم تجهيز Excel بأربع أوراق مرتبة');
+                showToast('تم تجهيز Excel بثلاث أوراق مرتبة');
                 return;
             }
         } catch(err) {
@@ -1763,7 +1857,7 @@
         a.click();
         a.remove();
         setTimeout(() => URL.revokeObjectURL(url), 3000);
-        showToast('تم تنزيل Excel بأربع أوراق مرتبة');
+        showToast('تم تنزيل Excel بثلاث أوراق مرتبة');
     }
 
     function exportData() {
@@ -1788,24 +1882,10 @@
                 if(!appData.weekLogs) { appData.weekLogs = {}; if(Object.keys(appData.logs).length) appData.weekLogs['الأسبوع الأول'] = appData.logs; }
                 if(!appData.settings) appData.settings = {};
                 if(!Array.isArray(appData.assessments)) appData.assessments = [];
-                document.getElementById('schoolName').value = appData.settings.schoolName || '';
-                document.getElementById('teacherName').value = appData.settings.teacherName || '';
-                document.getElementById('className').value = appData.settings.className || 'الصف أولى/أول';
-                document.getElementById('monthName').value = appData.settings.monthName || 'جمادى الأولى';
-                document.getElementById('weekSelect').value = appData.settings.week || 'الأسبوع الأول';
-                document.getElementById('subjectSelect').value = appData.settings.subject || 'لغتي';
-                document.getElementById('subjectOther').value = appData.settings.subjectOther || '';
-                document.getElementById('periodSelect').value = appData.settings.period || 'الأولى';
-                document.getElementById('lessonDate').value = appData.settings.lessonDate || new Date().toISOString().slice(0,10);
-                toggleSubjectOther();
-                migrateLegacyMonthData();
-                syncDayFromDate();
                 saveToLocalStorage();
                 updateStudentSelect();
                 renderTable();
-                updateStats();
-                updateLessonContext();
-                showToast('تم استيراد البيانات واستعادة إعدادات الصف بنجاح!');
+                showToast('تم استيراد البيانات بنجاح!');
             } catch (err) {
                 alert('ملف غير صالح.');
             }
@@ -1816,7 +1896,7 @@
     function clearAllData() {
         if(confirm('سيتم حذف كل بيانات الرصد والطالبات نهائيًا. هل تودين الاستمرار؟')) {
             localStorage.removeItem('rasd_data');
-            appData = { students: [], logs: {}, weekLogs: {}, assessments: [], settings: { schoolName:'', teacherName:'', className: 'الصف أولى/أول', monthName: 'جمادى الأولى', week: 'الأسبوع الأول', subject: 'لغتي', subjectOther: '', period: 'الأولى', lessonDate: new Date().toISOString().slice(0,10) } };
+            appData = { students: [], logs: {}, weekLogs: {}, assessments: [], settings: { className: 'الصف أولى/أول', monthName: 'جمادى الأولى', week: 'الأسبوع الأول', subject: 'لغتي', subjectOther: '', period: 'الأولى', lessonDate: new Date().toISOString().slice(0,10) } };
             updateStudentSelect();
             renderTable();
             updateStats();
