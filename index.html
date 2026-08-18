@@ -209,7 +209,8 @@
         }
         .badge-m { background: #dbeafe; color: #1e40af; } /* مشاركة */
         .badge-w { background: #fef9c3; color: #854d0e; } /* واجب */
-        .badge-s { background: #ffeeec; color: #b91c1c; } /* سلوك */
+        .badge-s { background: #ffeeec; color: #b91c1c; } /* سلوك سلبي */
+        .badge-sp { background: #ecfdf5; color: #166534; } /* سلوك إيجابي */
         .badge-t { background: #dcfce7; color: #166534; } /* تحسن */
         .badge-a { background: #e0f2fe; color: #075985; } /* حضور */
         .badge-abs { background: #fce7f3; color: #9d174d; } /* غياب */
@@ -338,9 +339,9 @@
                 <div class="rasd-subtitle">نظام المتابعة الصفية الذكي</div>
             </div>
         </div>
-        <p id="institutionHeaderLine">أقل تدوينًا… أدق متابعة • الإصدار الإداري النهائي v1.4</p>
+        <p id="institutionHeaderLine">أقل تدوينًا… أدق متابعة • الإصدار الإداري النهائي</p>
         <div class="rasd-status" aria-label="حالة النظام">
-            <span>✓ حفظ محلي</span><span>✓ تقارير</span><span>✓ حتى 50 طالبة</span><span>v1.4</span>
+            <span>✓ حفظ محلي</span><span>✓ تقارير</span><span>✓ حتى 50 طالبة</span>
         </div>
     </header>
 
@@ -470,37 +471,29 @@
             <p style="font-size: 11px; color: #64748b; margin-top: 8px;">سيتم ترقيم الأسماء تلقائيًا من 1 حسب ترتيبها.</p>
         </div>
 
-        <!-- الإدخال باللغة الطبيعية والرصد السريع -->
+        <!-- الرصد المباشر للطالبة -->
         <div class="card">
-            <div class="card-title">🧠 الإدخال باللغة الطبيعية والرصد الذكي</div>
-            <div class="form-group">
-                <label>اكتبي كـ عبارة نصية مباشرة</label>
-                <textarea id="naturalInput" rows="3" placeholder="مثال: 1 لم تحضر الواجب، 3 مشاركتها ممتازة، 5 تحسن سلوكها"></textarea>
+            <div class="card-title">✅ رصد الطالبة</div>
+            <p style="font-size:12px;color:#64748b;margin-bottom:12px;">بعد حفظ قائمة الطالبات: اختاري اسم الطالبة ثم اضغطي على الحالة المناسبة. يتم الحفظ مباشرة مع المادة والحصة والتاريخ.</p>
+            <div style="display:flex;gap:10px;margin-bottom:10px;flex-wrap:wrap;">
+                <select id="studentSelect" style="flex:2;min-width:210px;"><option value="">اختر الطالبة...</option></select>
+                <select id="daySelect" style="flex:1;min-width:125px;">
+                    <option value="الأحد">الأحد</option>
+                    <option value="الاثنين">الاثنين</option>
+                    <option value="الثلاثاء">الثلاثاء</option>
+                    <option value="الأربعاء">الأربعاء</option>
+                    <option value="الخميس">الخميس</option>
+                </select>
             </div>
-            <button class="btn-primary" style="width: 100%; justify-content: center;" onclick="processNaturalLanguage()">⚡ تحليل وإضافة للرصد</button>
-
-            <div style="margin-top: 15px; border-top: 1px dashed var(--border); padding-top: 15px;">
-                <label>أو رصد سريع يدوي لطالبة محددة:</label>
-                <div style="font-size:11px;color:#64748b;margin-bottom:8px;">سيُحفظ مع كل رصد: المادة + رقم الحصة + التاريخ.</div>
-                <div style="display: flex; gap: 10px; margin-bottom: 10px;">
-                    <select id="studentSelect" style="flex: 2;"><option value="">اختر الطالبة...</option></select>
-                    <select id="daySelect" style="flex: 1;">
-                        <option value="الأحد">الأحد</option>
-                        <option value="الاثنين">الاثنين</option>
-                        <option value="الثلاثاء">الثلاثاء</option>
-                        <option value="الأربعاء">الأربعاء</option>
-                        <option value="الخميس">الخميس</option>
-                    </select>
-                </div>
-                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(90px, 1fr)); gap: 5px; margin-bottom: 10px;">
-                    <button class="btn-secondary" style="background:#e0f2fe; color:#075985;" onclick="quickNote('ح✓')">ح حضور</button>
-                    <button class="btn-secondary" style="background:#fce7f3; color:#9d174d;" onclick="quickNote('غ!')">غ غياب</button>
-                    <button class="btn-secondary" style="background:#dbeafe; color:#1e40af;" onclick="quickNote('م⭐')">م مشاركة</button>
-                    <button class="btn-secondary" style="background:#fef9c3; color:#854d0e;" onclick="quickNote('و!')">و واجب</button>
-                    <button class="btn-secondary" style="background:#ffeeec; color:#b91c1c;" onclick="quickNote('س!')">س سلوك</button>
-                    <button class="btn-secondary" style="background:#dcfce7; color:#166534;" onclick="quickNote('س⭐')">ت تحسن</button>
-                </div>
+            <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(125px,1fr));gap:7px;margin-bottom:10px;">
+                <button class="btn-secondary" style="background:#fce7f3;color:#9d174d;" onclick="quickNote('غ!')">غ غياب</button>
+                <button class="btn-secondary" style="background:#fef9c3;color:#854d0e;" onclick="quickNote('و!')">و واجب غير منجز</button>
+                <button class="btn-secondary" style="background:#dbeafe;color:#1e40af;" onclick="quickNote('م⭐')">م مشاركة مميزة</button>
+                <button class="btn-secondary" style="background:#ecfdf5;color:#166534;" onclick="quickNote('س✓')">✓ سلوك إيجابي</button>
+                <button class="btn-secondary" style="background:#ffeeec;color:#b91c1c;" onclick="quickNote('س!')">! سلوك سلبي</button>
+                <button class="btn-secondary" style="background:#dcfce7;color:#166534;" onclick="quickNote('س⭐')">ت تحسن</button>
             </div>
+            <p style="font-size:11px;color:#64748b;margin-top:7px;">لا حاجة لرصد الحضور يدويًا؛ سجّلي الغائبات فقط.</p>
         </div>
     </div>
 
@@ -685,13 +678,13 @@
             </div>
             <div style="padding:12px;border:1px solid var(--border);border-radius:10px;background:#f8fafc;">
                 <strong>الإصدار</strong>
-                <p style="font-size:12px;color:#475569;margin:6px 0 0;">رَصْد v1.3 — النسخة الإدارية النهائية — 15-08-2026</p>
+                <p style="font-size:12px;color:#475569;margin:6px 0 0;">رَصْد v1.7 — النسخة النهائية المبسطة — 18-08-2026</p>
             </div>
         </div>
     </div>
 
     <footer>
-        رَصْد v1.3 — النسخة الإدارية النهائية • تحفظ البيانات محليًا في هذا المتصفح، ويُنصح بعمل نسخة احتياطية دورية.
+        رَصْد v1.7 — النسخة النهائية المبسطة • تحفظ البيانات محليًا في هذا المتصفح، ويُنصح بعمل نسخة احتياطية دورية.
     </footer>
 </div>
 
@@ -714,7 +707,7 @@
 <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
 <script>
     function buildStudentMetrics(studentId){
-        const metric = {attendance:0,absence:0,homework:0,participation:0,behavior:0,improvement:0,subjects:{}};
+        const metric = {attendance:0,absence:0,homework:0,participation:0,positiveBehavior:0,behavior:0,improvement:0,subjects:{}};
         const weekLogs = getWeekLogs(false);
         const days = weekLogs[studentId] || {};
         Object.values(days).forEach(notes => notes.forEach(n => {
@@ -724,6 +717,7 @@
             if(t.includes('غ')) metric.absence++;
             if(t.includes('و')) metric.homework++;
             if(t.includes('م')) metric.participation++;
+            if(t.includes('س✓')) metric.positiveBehavior++;
             if(t.includes('س!')) metric.behavior++;
             if(t.includes('س⭐')) metric.improvement++;
             if(t.includes('غ')||t.includes('و!')||t.includes('س!')) metric.subjects[sub]=(metric.subjects[sub]||0)+1;
@@ -767,6 +761,27 @@
         }
     };
 
+    function migrateLegacyStorage(data) {
+        if(!data || typeof data !== 'object') return false;
+        if(!data.settings) data.settings = {};
+        if(!data.weekLogs) data.weekLogs = {};
+        if(!Array.isArray(data.assessments)) data.assessments = [];
+        const month = (data.settings.monthName || 'جمادى الأولى').trim() || 'جمادى الأولى';
+        let changed = false;
+        Object.keys(data.weekLogs).filter(k => !String(k).includes('||')).forEach(oldKey => {
+            const newKey = `${month}||${oldKey}`;
+            if(!data.weekLogs[newKey]) data.weekLogs[newKey] = data.weekLogs[oldKey];
+            delete data.weekLogs[oldKey];
+            changed = true;
+        });
+        data.assessments.forEach(a => {
+            if(!a || typeof a !== 'object') return;
+            if(a.week && !String(a.week).includes('||')) { a.week = `${month}||${a.week}`; changed = true; }
+            if(!a.month) { a.month = month; changed = true; }
+        });
+        return changed;
+    }
+
     // تحميل البيانات عند فتح الصفحة
     window.onload = function() {
         const saved = localStorage.getItem('rasd_data');
@@ -785,6 +800,10 @@
         }
         if(!appData.settings) appData.settings = {};
         if(!Array.isArray(appData.assessments)) appData.assessments = [];
+
+        // ترحيل تلقائي للنسخ السابقة التي كانت تحفظ الأسبوع دون اسم الشهر.
+        if(migrateLegacyStorage(appData)) localStorage.setItem('rasd_data', JSON.stringify(appData));
+
         document.getElementById('className').value = appData.settings.className || 'الصف أولى/أول';
         document.getElementById('monthName').value = appData.settings.monthName || 'جمادى الأولى';
         document.getElementById('weekSelect').value = appData.settings.week || 'الأسبوع الأول';
@@ -808,7 +827,7 @@
                 if(id === 'subjectSelect') toggleSubjectOther();
                 if(id === 'lessonDate') syncDayFromDate();
                 saveSettings();
-                if(id === 'weekSelect') { renderTable(); updateStats(); }
+                if(id === 'weekSelect' || id === 'monthName') { renderTable(); updateStats(); }
             });
             el.addEventListener('input', saveSettings);
         });
@@ -885,7 +904,7 @@
         const parts = [];
         if(school) parts.push(school);
         if(teacher) parts.push(`${title}: ${teacher}`);
-        document.getElementById('institutionHeaderLine').textContent = parts.length ? parts.join(' — ') : 'أقل تدوينًا… أدق متابعة • الإصدار الإداري النهائي v1.4';
+        document.getElementById('institutionHeaderLine').textContent = parts.length ? parts.join(' — ') : 'أقل تدوينًا… أدق متابعة • الإصدار الإداري النهائي';
     }
 
     function showSchoolLogo(src) {
@@ -988,15 +1007,39 @@
         });
     }
 
-    function currentWeekKey() {
+    function currentWeekLabel() {
         return document.getElementById('weekSelect').value || 'الأسبوع الأول';
     }
 
+    function currentMonthLabel() {
+        return (document.getElementById('monthName').value || '').trim() || 'شهر غير محدد';
+    }
+
+    // مفتاح التخزين يجمع الشهر والأسبوع لمنع اختلاط أسابيع الشهور المختلفة.
+    function currentWeekKey() {
+        return `${currentMonthLabel()}||${currentWeekLabel()}`;
+    }
+
+    function weekLabelFromKey(key) {
+        const text = String(key || '');
+        return text.includes('||') ? text.split('||').slice(1).join('||') : text;
+    }
+
+    function monthLabelFromKey(key) {
+        const text = String(key || '');
+        return text.includes('||') ? text.split('||')[0] : currentMonthLabel();
+    }
+
+    function currentMonthWeekKeys() {
+        const month = currentMonthLabel();
+        return Object.keys(appData.weekLogs || {}).filter(key => !String(key).includes('||') || monthLabelFromKey(key) === month);
+    }
+
     function getWeekLogs(create = false) {
-        const week = currentWeekKey();
+        const weekKey = currentWeekKey();
         if(!appData.weekLogs) appData.weekLogs = {};
-        if(create && !appData.weekLogs[week]) appData.weekLogs[week] = {};
-        return appData.weekLogs[week] || {};
+        if(create && !appData.weekLogs[weekKey]) appData.weekLogs[weekKey] = {};
+        return appData.weekLogs[weekKey] || {};
     }
 
     function noteType(n){ return typeof n === 'string' ? n : ((n && (n.code || n.type)) || ''); }
@@ -1057,7 +1100,7 @@
                 const weekLogs = getWeekLogs(false);
                 let notes = (weekLogs[student.id] && weekLogs[student.id][day]) ? weekLogs[student.id][day] : [];
                 
-                let cellHtml = `<div style="min-height:30px; display:flex; flex-wrap:wrap; gap:2px;" onclick="addManualPrompt(${student.id}, '${day}')">`;
+                let cellHtml = `<div style="min-height:30px; display:flex; flex-wrap:wrap; gap:2px;">`;
                 notes.forEach(n => {
                     if(!matchesSummaryFilter(n)) return;
                     const code = recordCode(n);
@@ -1066,6 +1109,7 @@
                     if(code.includes('ح✓')) badgeClass = 'badge-a';
                     if(code.includes('ح!') || code.includes('غ!')) badgeClass = 'badge-abs';
                     if(code.includes('و')) badgeClass = 'badge-w';
+                    if(code.includes('س✓')) badgeClass = 'badge-sp';
                     if(code.includes('س!')) badgeClass = 'badge-s';
                     if(code.includes('س⭐')) badgeClass = 'badge-t';
                     const tip = [meta.subject, meta.period ? `الحصة ${meta.period}` : '', meta.date].filter(Boolean).join(' — ');
@@ -1092,7 +1136,7 @@
                 (Array.isArray(notes) ? notes : []).forEach(n => {
                     if(!matchesSummaryFilter(n)) return;
                     const t = noteType(n);
-                    if(t.includes('م⭐') || t.includes('س⭐')) pos++;
+                    if(t.includes('م⭐') || t.includes('س✓') || t.includes('س⭐')) pos++;
                     if(t.includes('و!') || t.includes('س!') || t.includes('غ!') || t.includes('ح!')) neg++;
                 });
             });
@@ -1163,56 +1207,6 @@
         saveToLocalStorage();
     }
 
-    function addManualPrompt(sId, day) {
-        let currentStudent = appData.students.find(s => s.id == sId);
-        let note = prompt(`رصد يدوي للطالبة: ${currentStudent.name} ليوم ${day}.
-اكتبي الرمز (ح✓، غ!، م⭐، و!، س!، ت⭐):`);
-        if(note) {
-            logRecord(sId, day, note);
-            renderTable();
-        }
-    }
-
-    // محرك اللغة الطبيعية المحلي والذكي
-    function processNaturalLanguage() {
-        const input = document.getElementById('naturalInput').value.trim();
-        if(!input) return;
-
-        const currentDay = document.getElementById('daySelect').value;
-        // تقسيم العبارات عبر الواصلات أو الفواصل
-        const phrases = input.split(/[،,•\n]+/);
-        let count = 0;
-
-        phrases.forEach(phrase => {
-            if(!phrase.trim()) return;
-            
-            // استخراج الرقم من بداية الجملة
-            const matchNumber = phrase.match(/\d+/);
-            if(!matchNumber) return;
-            
-            const studentId = matchNumber[0];
-            
-            // التحقق من وجود الطالبة
-            if(!appData.students.some(s => s.id == studentId)) return;
-
-            let type = '';
-            if(phrase.includes('غائبة') || phrase.includes('غياب') || phrase.includes('لم تحضر اليوم')) type = 'غ!';
-            else if(phrase.includes('حاضرة') || phrase.includes('حضرت اليوم')) type = 'ح✓';
-            else if(phrase.includes('واجب') || phrase.includes('ناقص')) type = 'و!';
-            else if(phrase.includes('تحسن') || phrase.includes('تعدل')) type = 'س⭐';
-            else if(phrase.includes('كلام') || phrase.includes('مشاغبة') || phrase.includes('سلوك')) type = 'س!';
-            else if(phrase.includes('مشاركة') || phrase.includes('ممتازة') || phrase.includes('جاوبت')) type = 'م⭐';
-            else type = 'م⭐'; // افتراضي مشاركة
-
-            logRecord(studentId, currentDay, type);
-            count++;
-        });
-
-        renderTable();
-        document.getElementById('naturalInput').value = '';
-        showToast(`تمت معالجة ورصد ${count} جملة بنجاح.`);
-    }
-
 
     function toggleAssessmentActionOther(){
         const sel=document.getElementById('assessmentAction');
@@ -1239,7 +1233,7 @@
         const action=actionSel==='أخرى'?(document.getElementById('assessmentActionOther').value.trim()||'إجراء آخر'):actionSel;
         if(!hasScore && !action && !document.getElementById('assessmentNote').value.trim()){alert('لا يوجد شيء للحفظ. أضيفي درجة أو إجراء أو ملاحظة.');return;}
         if(!Array.isArray(appData.assessments)) appData.assessments=[];
-        const rec={id:Date.now(),studentId:String(sid),type:document.getElementById('assessmentType').value,score,max,subject:document.getElementById('assessmentSubject').value.trim()||selectedSubject(),date:document.getElementById('assessmentDate').value||document.getElementById('lessonDate').value,day:document.getElementById('daySelect').value,action,note:document.getElementById('assessmentNote').value.trim(),week:currentWeekKey(),period:document.getElementById('periodSelect').value};
+        const rec={id:Date.now(),studentId:String(sid),type:document.getElementById('assessmentType').value,score,max,subject:document.getElementById('assessmentSubject').value.trim()||selectedSubject(),date:document.getElementById('assessmentDate').value||document.getElementById('lessonDate').value,day:document.getElementById('daySelect').value,action,note:document.getElementById('assessmentNote').value.trim(),week:currentWeekKey(),month:currentMonthLabel(),period:document.getElementById('periodSelect').value};
         appData.assessments.push(rec); saveToLocalStorage();
         const st=appData.students.find(x=>String(x.id)===String(sid));
         const pct=hasScore?Math.round((score/max)*1000)/10:null;
@@ -1249,13 +1243,13 @@
     }
     function assessmentsForStudent(studentId, scope='week'){
         const all=Array.isArray(appData.assessments)?appData.assessments:[];
-        return all.filter(a=>String(a.studentId)===String(studentId) && (scope==='month' || a.week===currentWeekKey()));
+        return all.filter(a=>String(a.studentId)===String(studentId) && (scope==='month' ? ((a.month||monthLabelFromKey(a.week))===currentMonthLabel()) : a.week===currentWeekKey()));
     }
     function positiveCountFor(studentId, scope){
         const wl=getWeekLogs(false), days=scope==='day'?[document.getElementById('daySelect').value]:['الأحد','الاثنين','الثلاثاء','الأربعاء','الخميس'];
-        let p=0,im=0;
-        days.forEach(day=>{const notes=(wl[studentId]&&wl[studentId][day])||[];notes.forEach(n=>{const t=noteType(n);if(t.includes('م⭐'))p++;if(t.includes('س⭐'))im++;});});
-        return {participation:p,improvement:im,total:p+im};
+        let p=0,pb=0,im=0;
+        days.forEach(day=>{const notes=(wl[studentId]&&wl[studentId][day])||[];notes.forEach(n=>{const t=noteType(n);if(t.includes('م⭐'))p++;if(t.includes('س✓'))pb++;if(t.includes('س⭐'))im++;});});
+        return {participation:p,positiveBehavior:pb,improvement:im,total:p+pb+im};
     }
     function openClassroomDisplay(){
         const o=document.getElementById('classroomOverlay'); o.style.display='block';o.setAttribute('aria-hidden','false');document.body.style.overflow='hidden';renderClassroomDisplay();
@@ -1264,11 +1258,10 @@
     function renderClassroomDisplay(){
         const grid=document.getElementById('classroomGrid'); if(!grid)return;
         const scope=document.getElementById('boardScope').value, identity=document.getElementById('boardIdentity').value;
-        document.getElementById('boardContext').textContent=`${document.getElementById('className').value} — ${selectedSubject()} — ${scope==='day'?document.getElementById('daySelect').value:currentWeekKey()}`;
+        document.getElementById('boardContext').textContent=`${document.getElementById('className').value} — ${selectedSubject()} — ${scope==='day'?document.getElementById('daySelect').value:currentWeekLabel()}`;
         if(!appData.students.length){grid.innerHTML='<div style="text-align:center;color:#64748b;">لا توجد طالبات.</div>';return;}
-        grid.innerHTML=appData.students.map(st=>{const c=positiveCountFor(st.id,scope);const title=identity==='number'?`طالبة رقم ${st.id}`:escapeHtml(st.name);return `<div class="student-board-card"><div class="student-title">${title}</div><div class="points">⭐ ${c.total}</div><div><span class="tag">مشاركة ${c.participation}</span><span class="tag">تحسن ${c.improvement}</span></div><div class="board-actions"><button class="btn-primary" onclick="boardQuickPositive('${st.id}','م⭐')">⭐ مشاركة</button><button class="btn-success" onclick="boardQuickPositive('${st.id}','س⭐')">🌱 تحسن</button></div></div>`;}).join('');
+        grid.innerHTML=appData.students.map(st=>{const c=positiveCountFor(st.id,scope);const title=identity==='number'?`طالبة رقم ${st.id}`:escapeHtml(st.name);return `<div class="student-board-card"><div class="student-title">${title}</div><div class="points">⭐ ${c.total}</div><div><span class="tag">مشاركة ${c.participation}</span><span class="tag">سلوك إيجابي ${c.positiveBehavior}</span><span class="tag">تحسن ${c.improvement}</span></div></div>`;}).join('');
     }
-    function boardQuickPositive(studentId,code){logRecord(studentId,document.getElementById('daySelect').value,code);renderClassroomDisplay();renderTable();showToast('تم تسجيل تعزيز إيجابي.');}
 
     function parentFriendlyNote(note) {
         const code = recordCode(note).trim();
@@ -1276,6 +1269,7 @@
         if(code.includes('ح✓')) return 'حضور';
         if(code.includes('و!')) return 'عدم إحضار الواجب';
         if(code.includes('م⭐')) return 'مشاركة مميزة';
+        if(code.includes('س✓')) return 'سلوك إيجابي';
         if(code.includes('س!')) return 'ملاحظة سلوكية تحتاج متابعة';
         if(code.includes('س⭐')) return 'تحسن ملحوظ في السلوك';
         return code || 'ملاحظة متابعة';
@@ -1329,7 +1323,7 @@
             if(hasWeek&&weeklyBtn) weeklyBtn.style.display='inline-flex';
             return;
         }
-        const positives = items.filter(x => x.text.includes('مشاركة') || x.text.includes('تحسن') || x.text === 'حضور');
+        const positives = items.filter(x => x.text.includes('مشاركة') || x.text.includes('سلوك إيجابي') || x.text.includes('تحسن') || x.text === 'حضور');
         const followups = items.filter(x => !positives.includes(x));
         const fmt = x => `${x.day}${x.date ? ' بتاريخ ' + x.date : ''} في ${x.subject} (${x.period}): ${x.text}`;
         let msg = `السلام عليكم ورحمة الله وبركاته،\nولي أمر الطالبة/ ${student.name}\n\nنود إحاطتكم بملخص المتابعة ${scope === 'day' ? 'لهذا اليوم' : 'للأسبوع الحالي'}:\n`;
@@ -1396,6 +1390,7 @@
         if(t.includes('ح!') || t.includes('غ!')) return 'غياب';
         if(t.includes('و!')) return 'لم تحضر الواجب';
         if(t.includes('م⭐')) return 'مشاركة مميزة';
+        if(t.includes('س✓')) return 'سلوك إيجابي';
         if(t.includes('س!')) return 'ملاحظة سلوكية';
         if(t.includes('س⭐')) return 'تحسن في السلوك';
         return t || 'ملاحظة';
@@ -1407,6 +1402,7 @@
         if(t.includes('ح!') || t.includes('غ!')) return 'absence';
         if(t.includes('و!')) return 'homework';
         if(t.includes('م⭐')) return 'participation';
+        if(t.includes('س✓')) return 'positiveBehavior';
         if(t.includes('س!')) return 'behavior';
         if(t.includes('س⭐')) return 'improvement';
         return 'other';
@@ -1414,7 +1410,7 @@
 
     function collectStudentReportRecords(studentId, scope) {
         const dayOrder = { 'الأحد':0, 'الاثنين':1, 'الثلاثاء':2, 'الأربعاء':3, 'الخميس':4 };
-        const weeks = scope === 'month' ? Object.keys(appData.weekLogs || {}) : [currentWeekKey()];
+        const weeks = scope === 'month' ? currentMonthWeekKeys() : [currentWeekKey()];
         const records = [];
         weeks.forEach(week => {
             const wl = (appData.weekLogs && appData.weekLogs[week]) || {};
@@ -1422,7 +1418,7 @@
             Object.entries(studentDays).forEach(([day, notes]) => {
                 (Array.isArray(notes) ? notes : []).forEach(n => {
                     records.push({
-                        week,
+                        week: weekLabelFromKey(week),
                         day,
                         date: noteDate(n) || '',
                         subject: noteSubject(n) || 'غير محدد',
@@ -1445,7 +1441,7 @@
         const student = appData.students.find(s => String(s.id) === String(studentId));
         if(!student) return null;
         const records = collectStudentReportRecords(studentId, scope);
-        const m = {attendance:0,absence:0,homework:0,participation:0,behavior:0,improvement:0,other:0};
+        const m = {attendance:0,absence:0,homework:0,participation:0,positiveBehavior:0,behavior:0,improvement:0,other:0};
         const subjectIssues = {};
         records.forEach(r => {
             m[r.key] = (m[r.key] || 0) + 1;
@@ -1453,19 +1449,20 @@
         });
         let topSubject='—', topSubjectCount=0;
         Object.entries(subjectIssues).forEach(([sub,count]) => { if(count > topSubjectCount) { topSubject=sub; topSubjectCount=count; } });
-        const positives = m.participation + m.improvement;
+        const positives = m.participation + m.positiveBehavior + m.improvement;
         const followups = m.absence + m.homework + m.behavior;
         let summary = `الطالبة ${student.name}: `;
         if(records.length === 0) summary += 'لا توجد ملاحظات مسجلة في الفترة المحددة.';
         else {
             const parts=[];
-            if(m.attendance) parts.push(`حضور ${m.attendance}`);
             if(m.absence) parts.push(`غياب ${m.absence}`);
             if(m.homework) parts.push(`عدم إحضار الواجب ${m.homework}`);
             if(m.participation) parts.push(`مشاركة مميزة ${m.participation}`);
+            if(m.positiveBehavior) parts.push(`سلوك إيجابي ${m.positiveBehavior}`);
             if(m.behavior) parts.push(`ملاحظات سلوكية ${m.behavior}`);
             if(m.improvement) parts.push(`تحسن ${m.improvement}`);
-            summary += parts.join('، ') + '.';
+            summary += (parts.length ? parts.join('، ') + '.' : 'لا توجد ملاحظات تحتاج متابعة في الفترة المحددة.');
+            if(m.absence === 0) summary += ' لم يُسجّل غياب على الطالبة في الفترة المحددة.';
             if(topSubjectCount) summary += ` أكثر مادة ظهرت فيها ملاحظات تحتاج متابعة: ${topSubject} (${topSubjectCount}).`;
             if(followups === 0 && positives > 0) summary += ' الأداء العام إيجابي في الفترة المحددة.';
             else if(followups > positives) summary += ' يوصى بالمتابعة خلال الفترة القادمة.';
@@ -1489,9 +1486,9 @@
         if(!data) return;
         const out = document.getElementById('studentReportOutput');
         const m = data.metrics;
-        const periodText = scope === 'month' ? `الشهر: ${escapeHtml(document.getElementById('monthName').value || '—')}` : `${escapeHtml(currentWeekKey())} — ${escapeHtml(document.getElementById('monthName').value || '')}`;
+        const periodText = scope === 'month' ? `الشهر: ${escapeHtml(document.getElementById('monthName').value || '—')}` : `${escapeHtml(currentWeekLabel())} — ${escapeHtml(currentMonthLabel())}`;
         const metricCards = [
-            ['حضور',m.attendance],['غياب',m.absence],['واجب',m.homework],['مشاركة',m.participation],['سلوك',m.behavior],['تحسن',m.improvement]
+            ['الحضور','تلقائي'],['غياب',m.absence],['واجب غير منجز',m.homework],['مشاركة مميزة',m.participation],['سلوك إيجابي',m.positiveBehavior],['سلوك سلبي',m.behavior],['تحسن',m.improvement]
         ].map(([label,val]) => `<div style="padding:10px;border:1px solid #e2e8f0;border-radius:10px;text-align:center;background:#f8fafc;"><b style="font-size:20px;display:block;">${val}</b>${label}</div>`).join('');
         const rows = data.records.length ? data.records.map(r => `<tr><td>${escapeHtml(r.week)}</td><td>${escapeHtml(r.day)}</td><td>${escapeHtml(r.date || '—')}</td><td>${escapeHtml(r.subject)}</td><td>${escapeHtml(r.period)}</td><td>${escapeHtml(r.label)}</td></tr>`).join('') : `<tr><td colspan="6" style="text-align:center;color:#64748b;">لا توجد ملاحظات في الفترة المحددة.</td></tr>`;
         out.innerHTML = `
@@ -1516,7 +1513,7 @@
                     <div><b>المادة:</b> ${escapeHtml(selectedSubject())}</div>
                     <div><b>تاريخ إصدار التقرير:</b> ${escapeHtml(new Date().toLocaleDateString('ar-SA'))}</div>
                 </div>`; })()}
-                <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:14px;">${metricCards}</div>
+                <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:8px;">${metricCards}</div><div style="font-size:11px;color:#64748b;margin-bottom:14px;">قاعدة الحضور: جميع الطالبات حاضرات تلقائيًا، ويُسجل الغياب فقط.</div>
                 <div style="padding:12px;border-radius:10px;background:#eff6ff;margin-bottom:12px;"><b>الملخص:</b> ${escapeHtml(data.summary)}</div>
                 <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px;">
                     <div style="padding:10px;border:1px solid #dcfce7;border-radius:10px;"><b>الرصد الإيجابي:</b> ${data.positives}</div>
@@ -1584,7 +1581,7 @@
         }
 
         const days = ["الأحد", "الاثنين", "الثلاثاء", "الأربعاء", "الخميس"];
-        const week = currentWeekKey();
+        const week = currentWeekLabel();
         const weekLogs = getWeekLogs(false);
         const className = document.getElementById('className').value.trim() || 'الصف';
         const monthName = document.getElementById('monthName').value.trim() || 'الشهر';
@@ -1600,6 +1597,7 @@
             if(n.includes('ح!') || n.includes('غ!')) return 'غياب';
             if(n.includes('و!')) return 'لم تحضر الواجب';
             if(n.includes('م⭐')) return 'مشاركة مميزة';
+            if(n.includes('س✓')) return 'سلوك إيجابي';
             if(n.includes('س!')) return 'ملاحظة سلوكية';
             if(n.includes('س⭐')) return 'تحسن في السلوك';
             return n;
@@ -1611,16 +1609,18 @@
             if(n.includes('ح!') || n.includes('غ!')) return 'غ';
             if(n.includes('و!')) return 'و';
             if(n.includes('م⭐')) return 'م';
+            if(n.includes('س✓')) return 'إ';
             if(n.includes('س!')) return 'س';
             if(n.includes('س⭐')) return 'ت';
             return n;
         }
 
         function currentWeekDates() {
-            const now = new Date();
-            const sunday = new Date(now);
+            const lessonValue = document.getElementById('lessonDate').value;
+            const base = lessonValue ? new Date(lessonValue + 'T12:00:00') : new Date();
+            const sunday = new Date(base);
             sunday.setHours(0,0,0,0);
-            sunday.setDate(now.getDate() - now.getDay());
+            sunday.setDate(base.getDate() - base.getDay());
             const map = {};
             days.forEach((day, idx) => {
                 const d = new Date(sunday);
@@ -1662,6 +1662,7 @@
         logData.push(['الصف', className]);
         logData.push(['الشهر', monthName]);
         logData.push(['الأسبوع', week]);
+        logData.push(['قاعدة الحضور', 'جميع الطالبات حاضرات تلقائيًا، ويُسجل الغياب فقط']);
         logData.push(['تاريخ التصدير', new Date().toLocaleDateString('ar-SA')]);
         logData.push([]);
         logData.push(['رقم', 'اسم الطالبة', 'اليوم', 'التاريخ', 'المادة', 'الحصة', 'الملاحظة']);
@@ -1690,8 +1691,8 @@
         const logWs = XLSX.utils.aoa_to_sheet(logData);
         logWs['!merges'] = [XLSX.utils.decode_range('A1:G1')];
         logWs['!cols'] = [{wch:8}, {wch:28}, {wch:12}, {wch:14}, {wch:18}, {wch:16}, {wch:32}];
-        logWs['!autofilter'] = { ref: `A8:G${logData.length}` };
-        logWs['!freeze'] = { xSplit: 0, ySplit: 8, topLeftCell: 'A9', activePane: 'bottomLeft', state: 'frozen' };
+        logWs['!autofilter'] = { ref: `A9:G${logData.length}` };
+        logWs['!freeze'] = { xSplit: 0, ySplit: 9, topLeftCell: 'A10', activePane: 'bottomLeft', state: 'frozen' };
 
         // الورقة الثانية: ملخص واضح لكل طالبة
         const summaryData = [];
@@ -1699,23 +1700,24 @@
         summaryData.push(['المدرسة', ident.school || '', 'المعلمة', ident.teacher || '', 'العام الدراسي', ident.academicYear || '']);
         summaryData.push(['الصف', className, 'الشهر', monthName]);
         summaryData.push(['الأسبوع', week, 'آخر مادة مختارة', selectedSubject(), 'آخر حصة مختارة', document.getElementById('periodSelect').value]);
+        summaryData.push(['قاعدة الحضور', 'جميع الطالبات حاضرات تلقائيًا، ويُسجل الغياب فقط']);
         summaryData.push([]);
-        summaryData.push(['رقم', 'اسم الطالبة', 'حضور', 'غياب', 'واجب', 'مشاركة', 'سلوك', 'تحسن']);
+        summaryData.push(['رقم', 'اسم الطالبة', 'غياب', 'واجب غير منجز', 'مشاركة مميزة', 'سلوك إيجابي', 'سلوك سلبي', 'تحسن']);
 
-        let totals = {present:0, absent:0, homework:0, participation:0, behavior:0, improvement:0};
+        let totals = {absent:0, homework:0, participation:0, positiveBehavior:0, behavior:0, improvement:0};
         appData.students.forEach(student => {
-            const present = countCode(student.id, 'ح✓');
             const absent = countAbsence(student.id);
             const homework = countCode(student.id, 'و!');
             const participation = countCode(student.id, 'م⭐');
+            const positiveBehavior = countCode(student.id, 'س✓');
             const behavior = countCode(student.id, 'س!');
             const improvement = countCode(student.id, 'س⭐');
-            totals.present += present; totals.absent += absent; totals.homework += homework;
-            totals.participation += participation; totals.behavior += behavior; totals.improvement += improvement;
-            summaryData.push([student.id, student.name, present, absent, homework, participation, behavior, improvement]);
+            totals.absent += absent; totals.homework += homework;
+            totals.participation += participation; totals.positiveBehavior += positiveBehavior; totals.behavior += behavior; totals.improvement += improvement;
+            summaryData.push([student.id, student.name, absent, homework, participation, positiveBehavior, behavior, improvement]);
         });
         summaryData.push([]);
-        summaryData.push(['', 'إجمالي الأسبوع', totals.present, totals.absent, totals.homework, totals.participation, totals.behavior, totals.improvement]);
+        summaryData.push(['', 'إجمالي الأسبوع', totals.absent, totals.homework, totals.participation, totals.positiveBehavior, totals.behavior, totals.improvement]);
 
         // مؤشرات سريعة لأبرز الحالات في الأسبوع، مع إظهار جميع المتساويات
         function leadersBy(code) {
@@ -1749,16 +1751,16 @@
         summaryData.push([formatLeader('الأكثر تحسنًا','improvement'), mostImprovement.names, mostImprovement.count]);
 
         const summaryWs = XLSX.utils.aoa_to_sheet(summaryData);
-        const quickTitleRow = appData.students.length + 10;
+        const quickTitleRow = appData.students.length + 11;
         summaryWs['!merges'] = [
             XLSX.utils.decode_range('A1:H1'),
             XLSX.utils.decode_range(`A${quickTitleRow}:H${quickTitleRow}`)
         ];
         summaryWs['!cols'] = [
-            {wch:8}, {wch:30}, {wch:12}, {wch:10}, {wch:12}, {wch:12}, {wch:14}, {wch:12}
+            {wch:8}, {wch:30}, {wch:12}, {wch:18}, {wch:16}, {wch:16}, {wch:14}, {wch:14}
         ];
-        summaryWs['!autofilter'] = { ref: `A6:H${Math.max(6, 5 + appData.students.length)}` };
-        summaryWs['!freeze'] = { xSplit: 2, ySplit: 6, topLeftCell: 'C7', activePane: 'bottomRight', state: 'frozen' };
+        summaryWs['!autofilter'] = { ref: `A7:H${Math.max(7, 7 + appData.students.length)}` };
+        summaryWs['!freeze'] = { xSplit: 2, ySplit: 7, topLeftCell: 'C8', activePane: 'bottomRight', state: 'frozen' };
 
         // الورقة الثالثة: الجدول الأسبوعي الكامل للطباعة أو العرض على الكمبيوتر
         const gridData = [];
@@ -1766,23 +1768,24 @@
         gridData.push(['المدرسة', ident.school || '', 'المعلمة', ident.teacher || '', 'العام الدراسي', ident.academicYear || '']);
         gridData.push(['الصف', className, 'الشهر', monthName, 'الأسبوع', week]);
         gridData.push(['ملاحظة', 'تفاصيل المادة والحصة والتاريخ محفوظة في ورقة سجل المتابعة']);
-        gridData.push(['مفتاح الرموز', 'ح=حضور | غ=غياب | و=واجب | م=مشاركة | س=سلوك | ت=تحسن']);
+        gridData.push(['قاعدة الحضور', 'جميع الطالبات حاضرات تلقائيًا؛ الرمز غ يظهر فقط للطالبة الغائبة.']);
+        gridData.push(['مفتاح الرموز', 'غ=غياب | و=واجب غير منجز | م=مشاركة مميزة | إ=سلوك إيجابي | س=سلوك سلبي | ت=تحسن']);
         gridData.push([]);
         gridData.push(['رقم', 'اسم الطالبة', ...days.map(dayHeader), 'الملخص']);
 
         appData.students.forEach(student => {
-            const present = countCode(student.id, 'ح✓');
             const absent = countAbsence(student.id);
             const homework = countCode(student.id, 'و!');
             const participation = countCode(student.id, 'م⭐');
+            const positiveBehavior = countCode(student.id, 'س✓');
             const behavior = countCode(student.id, 'س!');
             const improvement = countCode(student.id, 'س⭐');
             const parts = [];
-            if(present) parts.push(`حضور ${present}`);
             if(absent) parts.push(`غياب ${absent}`);
             if(homework) parts.push(`واجب ${homework}`);
-            if(participation) parts.push(`مشاركة ${participation}`);
-            if(behavior) parts.push(`سلوك ${behavior}`);
+            if(participation) parts.push(`مشاركة مميزة ${participation}`);
+            if(positiveBehavior) parts.push(`سلوك إيجابي ${positiveBehavior}`);
+            if(behavior) parts.push(`سلوك سلبي ${behavior}`);
             if(improvement) parts.push(`تحسن ${improvement}`);
             gridData.push([
                 student.id,
@@ -1797,8 +1800,8 @@
         gridWs['!cols'] = [
             {wch:7}, {wch:24}, {wch:17}, {wch:17}, {wch:17}, {wch:17}, {wch:17}, {wch:34}
         ];
-        gridWs['!autofilter'] = { ref: `A6:H${gridData.length}` };
-        gridWs['!freeze'] = { xSplit: 2, ySplit: 6, topLeftCell: 'C7', activePane: 'bottomRight', state: 'frozen' };
+        gridWs['!autofilter'] = { ref: `A8:H${gridData.length}` };
+        gridWs['!freeze'] = { xSplit: 2, ySplit: 8, topLeftCell: 'C9', activePane: 'bottomRight', state: 'frozen' };
 
 
         // الورقة الرابعة: التقييمات والإجراءات الاختيارية
@@ -1841,7 +1844,7 @@
                     title: 'تقرير رَصْد',
                     text: `${className} — ${monthName} — ${week}`
                 });
-                showToast('تم تجهيز Excel بثلاث أوراق مرتبة');
+                showToast('تم تجهيز Excel بأربع أوراق مرتبة');
                 return;
             }
         } catch(err) {
@@ -1857,7 +1860,7 @@
         a.click();
         a.remove();
         setTimeout(() => URL.revokeObjectURL(url), 3000);
-        showToast('تم تنزيل Excel بثلاث أوراق مرتبة');
+        showToast('تم تنزيل Excel بأربع أوراق مرتبة');
     }
 
     function exportData() {
@@ -1882,6 +1885,7 @@
                 if(!appData.weekLogs) { appData.weekLogs = {}; if(Object.keys(appData.logs).length) appData.weekLogs['الأسبوع الأول'] = appData.logs; }
                 if(!appData.settings) appData.settings = {};
                 if(!Array.isArray(appData.assessments)) appData.assessments = [];
+                migrateLegacyStorage(appData);
                 saveToLocalStorage();
                 updateStudentSelect();
                 renderTable();
